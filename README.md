@@ -202,3 +202,22 @@ Home rebuilt from the user's asset sheet + blue homepage reference:
   "i" — now in Poppins Bold, so the "i" dot/stem shape matches the reference
   "i" exactly (previously Roboto Bold). Circle size, divider and strip
   layout unchanged from v1.6 (which already matched the reference strip).
+
+## v1.7.1 — Home compacted for banner ad space + info icon centered
+- Home compacted (user screenshot, orange marks on info strip + Quick
+  Actions): info strip padding 16->12dp, text 14->13sp, divider 40->32dp;
+  Quick Actions heading 22->19sp, cards padding 16->12dp, icon circles
+  56->48dp with 24dp icons (was 28dp), titles 16->15sp, subs 13->12sp,
+  arrows 18->16dp, card gap 12->8dp; header/hero spacings also trimmed.
+  Total Home height saved is roughly the height of the banner slot below.
+- Info icon: smaller AND properly centered — was a 48dp circle with a
+  20sp "i" inside a nested LinearLayout (font padding shifted the glyph
+  off-center). Now the TextView ITSELF is the circle: 40dp oval, 16sp
+  Poppins Bold "i", includeFontPadding=false, gravity CENTER — so the
+  "i" sits on the circle's center line, not above/below it.
+- Banner ad slot: fixed 50dp (standard banner height) strip at the bottom
+  of Home, above the bottom nav, outside the ScrollView so it never
+  scrolls away — Soft background with "Banner Ad" label for now. This is
+  a RESERVED SLOT, not a live AdMob ad: a live banner needs AdMob SDK +
+  real ad unit IDs, which this app does not have yet. When IDs arrive,
+  the real AdView replaces this placeholder 1:1 in the same slot.

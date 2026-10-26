@@ -177,9 +177,9 @@ public class MainActivity extends Activity {
         bg.setShape(GradientDrawable.OVAL);
         bg.setColor(SOFT);
         box.setBackground(bg);
-        box.setLayoutParams(new LinearLayout.LayoutParams(dp(56), dp(56)));
+        box.setLayoutParams(new LinearLayout.LayoutParams(dp(48), dp(48)));
         box.setGravity(Gravity.CENTER);
-        box.addView(iconImg(res, GREEN, 28));
+        box.addView(iconImg(res, GREEN, 24));
         return box;
     }
 
@@ -415,7 +415,7 @@ public class MainActivity extends Activity {
         ch2.addView(tv("Quick\n& Accurate", 13, TEXT, true));
         chips.addView(ch1, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         LinearLayout sp = new LinearLayout(this);
-        sp.setLayoutParams(new LinearLayout.LayoutParams(dp(12), 1));
+        sp.setLayoutParams(new LinearLayout.LayoutParams(dp(8), 1));
         chips.addView(sp);
         chips.addView(ch2, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         c.addView(chips); space(c, 28);
@@ -476,13 +476,13 @@ public class MainActivity extends Activity {
         prof.setGravity(Gravity.CENTER);
         prof.addView(iconImg(R.drawable.lucide_user_filled, GREEN, 24));
         head.addView(prof);
-        c.addView(head); space(c, 16);
+        c.addView(head); space(c, 12);
         LinearLayout hero = new LinearLayout(this);
         hero.setOrientation(LinearLayout.VERTICAL);
         hero.setBackground(round(LIGHT, 20)); hero.setPadding(dp(16), dp(16), dp(16), dp(16));
         LinearLayout.LayoutParams hp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        hp.bottomMargin = dp(12); hero.setLayoutParams(hp);
+        hp.bottomMargin = dp(8); hero.setLayoutParams(hp);
         LinearLayout top = new LinearLayout(this); top.setOrientation(LinearLayout.HORIZONTAL);
         LinearLayout txt = new LinearLayout(this); txt.setOrientation(LinearLayout.VERTICAL);
         txt.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
@@ -514,65 +514,80 @@ public class MainActivity extends Activity {
         c.addView(hero);
         LinearLayout info = new LinearLayout(this);
         info.setOrientation(LinearLayout.HORIZONTAL); info.setGravity(Gravity.CENTER_VERTICAL);
-        info.setBackground(round(LIGHT, 16)); info.setPadding(dp(16), dp(16), dp(16), dp(16));
+        info.setBackground(round(LIGHT, 16)); info.setPadding(dp(12), dp(12), dp(12), dp(12));
         LinearLayout.LayoutParams ip = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        ip.bottomMargin = dp(12); info.setLayoutParams(ip);
-        LinearLayout ii = new LinearLayout(this);
+        ip.bottomMargin = dp(8); info.setLayoutParams(ip);
+        TextView ii = tv("i", 16, WHITE, true);
+        ii.setIncludeFontPadding(false);
+        ii.setGravity(Gravity.CENTER);
         GradientDrawable ig = new GradientDrawable();
         ig.setShape(GradientDrawable.OVAL);
         ig.setColor(GREEN);
         ii.setBackground(ig);
-        ii.setLayoutParams(new LinearLayout.LayoutParams(dp(48), dp(48)));
-        ii.setGravity(Gravity.CENTER);
-        ii.addView(tv("i", 20, WHITE, true));
+        ii.setLayoutParams(new LinearLayout.LayoutParams(dp(40), dp(40)));
         info.addView(ii);
         View div = new View(this);
         div.setBackgroundColor(BORDER);
-        LinearLayout.LayoutParams dv = new LinearLayout.LayoutParams(dp(1), dp(40));
-        dv.leftMargin = dp(14); dv.rightMargin = dp(14); div.setLayoutParams(dv);
+        LinearLayout.LayoutParams dv = new LinearLayout.LayoutParams(dp(1), dp(32));
+        dv.leftMargin = dp(12); dv.rightMargin = dp(12); div.setLayoutParams(dv);
         info.addView(div);
-        TextView it = tv("Tax rates depend on transaction type, filer status and property value.", 14, GREY, false);
+        TextView it = tv("Tax rates depend on transaction type, filer status and property value.", 13, GREY, false);
         it.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         info.addView(it);
         c.addView(info);
-        space(c, 8);
-        c.addView(tv("Quick Actions", 22, TEXT, true)); space(c, 12);
+        space(c, 6);
+        c.addView(tv("Quick Actions", 19, TEXT, true)); space(c, 8);
         LinearLayout r1 = new LinearLayout(this); r1.setOrientation(LinearLayout.HORIZONTAL);
         LinearLayout qa1 = new LinearLayout(this); qa1.setOrientation(LinearLayout.VERTICAL);
-        qa1.setBackground(inputBg()); qa1.setPadding(dp(16), dp(16), dp(16), dp(16));
+        qa1.setBackground(inputBg()); qa1.setPadding(dp(12), dp(12), dp(12), dp(12));
         qa1.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         qa1.addView(iconBoxImg(R.drawable.lucide_file_text));
-        space(qa1, 8);
+        space(qa1, 6);
         LinearLayout t1 = new LinearLayout(this); t1.setOrientation(LinearLayout.HORIZONTAL);
-        TextView tt1 = tv("Tax Rates", 16, TEXT, true);
+        TextView tt1 = tv("Tax Rates", 15, TEXT, true);
         tt1.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-        t1.addView(tt1); t1.addView(iconImg(R.drawable.lucide_arrow_right, SECONDARY, 18));
+        t1.addView(tt1); t1.addView(iconImg(R.drawable.lucide_arrow_right, SECONDARY, 16));
         qa1.addView(t1);
-        qa1.addView(tv("View current FBR rates and guidelines.", 13, GREY, false));
+        qa1.addView(tv("View current FBR rates and guidelines.", 12, GREY, false));
         qa1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { ratesBack = "home"; showRates(); }
         });
         LinearLayout qa2 = new LinearLayout(this); qa2.setOrientation(LinearLayout.VERTICAL);
-        qa2.setBackground(inputBg()); qa2.setPadding(dp(16), dp(16), dp(16), dp(16));
+        qa2.setBackground(inputBg()); qa2.setPadding(dp(12), dp(12), dp(12), dp(12));
         qa2.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         qa2.addView(iconBoxImg(R.drawable.lucide_history));
-        space(qa2, 8);
+        space(qa2, 6);
         LinearLayout t2 = new LinearLayout(this); t2.setOrientation(LinearLayout.HORIZONTAL);
-        TextView tt2 = tv("History", 16, TEXT, true);
+        TextView tt2 = tv("History", 15, TEXT, true);
         tt2.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-        t2.addView(tt2); t2.addView(iconImg(R.drawable.lucide_arrow_right, SECONDARY, 18));
+        t2.addView(tt2); t2.addView(iconImg(R.drawable.lucide_arrow_right, SECONDARY, 16));
         qa2.addView(t2);
-        qa2.addView(tv("Check your past calculations.", 13, GREY, false));
+        qa2.addView(tv("Check your past calculations.", 12, GREY, false));
         qa2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { showHistory(); }
         });
         r1.addView(qa1);
         LinearLayout sp = new LinearLayout(this);
-        sp.setLayoutParams(new LinearLayout.LayoutParams(dp(12), 1));
+        sp.setLayoutParams(new LinearLayout.LayoutParams(dp(8), 1));
         r1.addView(sp); r1.addView(qa2);
-        c.addView(r1); space(c, 20);
-        setContentView(shell(c, "Home"));
+        c.addView(r1);
+        LinearLayout root = new LinearLayout(this);
+        root.setOrientation(LinearLayout.VERTICAL);
+        root.setBackgroundColor(BG);
+        ScrollView sv = new ScrollView(this);
+        sv.addView(c);
+        root.addView(sv, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, 0, 1));
+        LinearLayout ad = new LinearLayout(this);
+        ad.setBackgroundColor(SOFT);
+        ad.setGravity(Gravity.CENTER);
+        ad.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, dp(50)));
+        ad.addView(tv("Banner Ad", 12, MUTED, false));
+        root.addView(ad);
+        root.addView(bottomNav("Home"));
+        setContentView(root);
     }
 
     void updateToggle() {
