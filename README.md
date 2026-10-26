@@ -221,3 +221,12 @@ Home rebuilt from the user's asset sheet + blue homepage reference:
   a RESERVED SLOT, not a live AdMob ad: a live banner needs AdMob SDK +
   real ad unit IDs, which this app does not have yet. When IDs arrive,
   the real AdView replaces this placeholder 1:1 in the same slot.
+
+## v1.7.2 — Home info strip removed
+- Home se info section poora hata diya gaya (user order): blue "i"
+  circle + divider + "Tax rates depend on transaction type, filer status
+  and property value." text — sab khatam. Home ab: header -> hero card
+  -> Quick Actions -> banner ad slot -> bottom nav. Verified: source
+  aur APK dex dono me wo text maujood nahi hai (v1.7.1 dex me 1 dafa
+  tha, v1.7.2 dex me 0). Tax Rates screen, FAQs aur baqi screens
+  unchanged — sirf Home ka info strip hata hai.
