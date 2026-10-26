@@ -145,3 +145,16 @@ Home rebuilt from the user's asset sheet + blue homepage reference:
     lucide_user_filled), matching the reference profile circle.
   * Calculator field icons and Settings row icons are now plain Primary icons
     (no box), as in the mockup field/icon rows.
+
+## v1.6.1 — Hero image enlarged (user screenshot feedback)
+- Problem in v1.6.0 (user screenshot): hero image looked too small because the
+  new light image has ~26% empty light area on its left, and the box was only
+  130x87dp, so the house itself filled only ~78dp of the card.
+- Fix: image CROPPED to the house+blob (left 400px, top 80px, right/bottom
+  edges kept; 1136x900, aspect 1.26) so the house fills the frame, then saved
+  as hero_banner.webp 900x713 (89 KB). Box enlarged to 160x127dp (was
+  130x87dp) — house is now ~2x wider on screen than in v1.6.0.
+- Text lines protected despite the bigger image: hero padding 20->16dp,
+  heading 24->22sp (still maxLines 2), subtext 13->12sp (still maxLines 3),
+  8dp gap between text and image. On the user's phone width the heading
+  stays 2 lines and the subtext stays 3 lines.

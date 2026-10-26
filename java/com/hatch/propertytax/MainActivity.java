@@ -465,22 +465,23 @@ public class MainActivity extends Activity {
         c.addView(head); space(c, 16);
         LinearLayout hero = new LinearLayout(this);
         hero.setOrientation(LinearLayout.VERTICAL);
-        hero.setBackground(round(LIGHT, 20)); hero.setPadding(dp(20), dp(20), dp(20), dp(20));
+        hero.setBackground(round(LIGHT, 20)); hero.setPadding(dp(16), dp(16), dp(16), dp(16));
         LinearLayout.LayoutParams hp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         hp.bottomMargin = dp(12); hero.setLayoutParams(hp);
         LinearLayout top = new LinearLayout(this); top.setOrientation(LinearLayout.HORIZONTAL);
         LinearLayout txt = new LinearLayout(this); txt.setOrientation(LinearLayout.VERTICAL);
         txt.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        txt.setPadding(0, 0, dp(8), 0);
         TextView cap = tv("YOUR PROPERTY", 11, ACCENT, true);
         cap.setLetterSpacing(0.2f); txt.addView(cap); space(txt, 6);
-        TextView hd = tv("Know Your\nProperty Tax", 24, TEXT, true); hd.setMaxLines(2); txt.addView(hd); space(txt, 8);
-        TextView sb = tv("Get a quick and accurate estimate of your property tax in seconds.", 13, GREY, false); sb.setMaxLines(3); txt.addView(sb);
+        TextView hd = tv("Know Your\nProperty Tax", 22, TEXT, true); hd.setMaxLines(2); txt.addView(hd); space(txt, 8);
+        TextView sb = tv("Get a quick and accurate estimate of your property tax in seconds.", 12, GREY, false); sb.setMaxLines(3); txt.addView(sb);
         top.addView(txt);
         ImageView heroImg = new ImageView(this);
         heroImg.setImageResource(R.drawable.hero_banner);
         heroImg.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        heroImg.setLayoutParams(new LinearLayout.LayoutParams(dp(130), dp(87)));
+        heroImg.setLayoutParams(new LinearLayout.LayoutParams(dp(160), dp(127)));
         top.addView(heroImg);
         hero.addView(top); space(hero, 14);
         LinearLayout calcBtn = new LinearLayout(this);
