@@ -433,9 +433,9 @@ public class MainActivity extends Activity {
         txt.addView(tv("Get a quick and accurate estimate of your property tax in seconds.", 14, GREY, false));
         top.addView(txt);
         ImageView heroImg = new ImageView(this);
-        heroImg.setImageResource(R.drawable.hero_house);
-        heroImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        heroImg.setLayoutParams(new LinearLayout.LayoutParams(dp(150), dp(170)));
+        heroImg.setImageResource(R.drawable.hero_house_illustration);
+        heroImg.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        heroImg.setLayoutParams(new LinearLayout.LayoutParams(dp(170), dp(170)));
         top.addView(heroImg);
         hero.addView(top); space(hero, 14);
         LinearLayout calcBtn = new LinearLayout(this);

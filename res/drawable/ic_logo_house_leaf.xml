@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Header logo from the new (blue) design: primary-blue house outline + gold document badge. -->
+<!-- App Icon / Logo from the asset sheet: primary-blue house outline + gold leaf at bottom right. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="48dp" android:height="48dp"
     android:viewportWidth="48" android:viewportHeight="48">
     <path android:fillColor="#00000000" android:strokeColor="#173F7A" android:strokeWidth="3"
         android:pathData="M4,24 L24,4 L44,24 M8,22 L8,44 L40,44 L40,22" />
     <path android:fillColor="#173F7A" android:pathData="M17,17 L21,17 L21,21 L17,21 Z M27,17 L31,17 L31,21 L27,21 Z" />
-    <path android:fillColor="#D9A441" android:pathData="M30,30 L44,30 L44,46 L30,46 Z" />
-    <path android:fillColor="#00000000" android:strokeColor="#FFFFFF" android:strokeWidth="1.5"
-        android:pathData="M33,34 L41,34 M33,38 L41,38 M33,42 L38,42" />
+    <path android:fillColor="#D9A441" android:pathData="M30,44 C30,34 36,28 44,28 C44,38 38,44 30,44 Z" />
 </vector>

@@ -1,4 +1,4 @@
-# Property Tax Checker — v1.2.0
+# Property Tax Checker — v1.3.0
 
 Pakistan FBR advance tax calculator for buying / selling property.
 UI follows the user's screenshot set: Welcome, Home dashboard,
@@ -62,3 +62,23 @@ use, https://images.pexels.com/photos/106399/); other icons are Material-style
 outline vectors drawn in-app (Google Material Icons' GitHub paths returned 404
 for direct download, and unclear-license real-estate images from web search were
 not copied).
+
+## v1.3.0 — Homepage rebuilt from the asset sheet (blue reference)
+Home rebuilt from the user's asset sheet + blue homepage reference:
+- Logo: asset-sheet App Icon / Logo (blue house outline + gold leaf) — header logo
+  and launcher icon both use it now (gold document badge from v1.2 retired).
+- Hero: illustration cropped from the asset sheet itself
+  ("Illustration (Home Screen House)": white house, blue roof, trees, clouds),
+  near-black sheet background made transparent, saved as
+  res/drawable-nodpi/hero_house_illustration.png. The Pexels photo used in v1.2
+  is retired from the app (it did not match the design illustration).
+- Nav icons: filled Home, outline Calculator, clock History, gear Settings —
+  as in the sheet's "Navigation Icons (Bottom Tab)".
+- Buttons/cards/info strip/Quick Actions/slogan follow the sheet + blue
+  homepage: Calculate Tax (primary, white), info strip, Tax Rates + History
+  cards with soft-blue icon circles, slogan "Smart Tax Decisions for a Better
+  Tomorrow". Palette unchanged from v1.2 (user blue palette).
+- Note: the asset sheet is a single composite image on a black background, not
+  separate transparent asset files, so assets were cropped (hero) or redrawn as
+  vectors (logo/icons) to match it. If separate transparent PNGs are supplied,
+  they can be swapped in 1:1.
