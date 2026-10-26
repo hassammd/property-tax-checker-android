@@ -158,3 +158,19 @@ Home rebuilt from the user's asset sheet + blue homepage reference:
   heading 24->22sp (still maxLines 2), subtext 13->12sp (still maxLines 3),
   8dp gap between text and image. On the user's phone width the heading
   stays 2 lines and the subtext stays 3 lines.
+
+## v1.6.2 — Light colour behind hero image removed (user screenshot, orange mark)
+- User's screenshot (orange mark at top of hero image) showed a pale-blue blob
+  + light background patch behind the house, distinct from the hero card
+  (#EAF3FF). Size was perfect in v1.6.1, so size/layout are UNCHANGED
+  (160x127dp, heading 2 lines, subtext 3 lines).
+- Fix: hero_banner.webp reprocessed from the v1.6.1 crop — (1) flood-fill
+  background from the 4 corners (thresh 40, stops at the blob), (2) pale-blue
+  blob pixels removed (R 140-230, B-R > 35, G-R > 15, B > 200 -> transparent).
+  House, roof, windows, door, trees, bushes and grass are intact; the house
+  now sits directly on the card background with no light patch behind it.
+  A stronger blob rule was tried and REJECTED — it ate the house-wall shading
+  and the clouds, so the gentler rule above was kept. Side effect to know:
+  clouds are white, so on the card's very light background they now look
+  fainter than they did on the darker blob — that is inherent to removing
+  the blob, not a defect in the house.
