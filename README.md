@@ -1,4 +1,4 @@
-# Property Tax Checker — v1.0.0
+# Property Tax Checker — v1.1.0
 
 Pakistan FBR advance tax calculator for buying / selling property.
 UI follows the user's screenshot set: Welcome, Home dashboard,
@@ -40,7 +40,7 @@ on the Result screen and in Tax Rates.
 
 ## Build
 ./build.sh  (manual aapt2/javac/d8 pipeline, no Gradle; JDK 17 + Android SDK 34)
-Output: your_files/property-tax-app/property-tax-checker-v1.0.0.apk
+Output: your_files/property-tax-app/property-tax-checker-v1.1.0.apk
 
 Package: com.hatch.propertytax — versionCode 1, versionName 1.0.0,
 minSdk 24, targetSdk 34. Debug-signed. History is stored only on-device
