@@ -1,0 +1,12 @@
+# Build outputs
+build/
+test-classes/
+*.apk
+*.aab
+# Signing keys — never commit
+*.keystore
+*.jks
+# IDE / OS
+.idea/
+*.iml
+.DS_Store
