@@ -101,3 +101,20 @@ Home rebuilt from the user's asset sheet + blue homepage reference:
   Calculator no longer asks for Province, Details no longer shows it, and FAQs
   say the app does not ask for province. Old saved history (v1.0-v1.3, with
   province) still loads — fromLine handles both formats, province ignored.
+
+## v1.5.0 — New hero banner image, slogan removed, Property Type removed
+- Hero banner: user's new house image (white house, blue roof, trees, clouds)
+  used in the Home hero card. The sent file has a solid black background, so
+  pure-black pixels were made transparent (threshold 25; roof is blue and door
+  is grey, so neither is affected) and the image was trimmed and saved as
+  WebP (res/drawable-nodpi/hero_banner.webp, 900x607, 162 KB) to keep the APK
+  small. The v1.3 asset-sheet hero illustration is retired.
+- Slogan REMOVED (user, 2026-10-26): the "Smart Tax Decisions for a Better
+  Tomorrow" strip at the bottom of Home is gone, logo + divider with it. Home
+  now ends at Quick Actions.
+- Property Type REMOVED (user, 2026-10-26): like Province, it does not change
+  the rate. Calculator no longer asks for it, Details no longer shows it,
+  History/Result titles and share text show only Buying/Selling, info strip
+  and FAQs updated. Old history (with type/province) still loads — fromLine
+  handles v1.0-v1.3 (8 fields), v1.4 (7 fields) and new (6 fields) formats.
+- Calculator now: Buying/Selling toggle, Property Value, Taxpayer Status only.

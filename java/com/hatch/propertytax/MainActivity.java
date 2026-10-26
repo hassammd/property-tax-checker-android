@@ -54,40 +54,44 @@ public class MainActivity extends Activity {
     static final int TEXT = 0xFF18365F; // Primary Text
     static final int WHITE = 0xFFFFFFFF;
 
-    static final String[] TYPES = {"Residential (House)", "Residential (Flat)", "Commercial", "Plot"};
 
     boolean buying = true;
     boolean filer = true;
-    String ptype = TYPES[0];
     String current = "welcome";
     String ratesBack = "home";
     Calc lastCalc;
     Button buyBtn, sellBtn;
 
     static class Calc {
-        boolean buying; String type; boolean filer;
+        boolean buying; boolean filer;
         long value, tax, time; double rate;
-        Calc(boolean b, String t, boolean f, long v, double r, long tx, long tm) {
-            buying = b; type = t; filer = f; value = v; rate = r; tax = tx; time = tm;
+        Calc(boolean b, boolean f, long v, double r, long tx, long tm) {
+            buying = b; filer = f; value = v; rate = r; tax = tx; time = tm;
         }
         String section() { return TaxCalc.section(buying); }
         String txn() { return buying ? "Buying" : "Selling"; }
         String txnLong() { return buying ? "Buying (Buyer)" : "Selling (Seller)"; }
         String toLine() {
-            return time + "|" + (buying ? 1 : 0) + "|" + type + "|" + (filer ? 1 : 0)
+            return time + "|" + (buying ? 1 : 0) + "|" + (filer ? 1 : 0)
                     + "|" + value + "|" + rate + "|" + tax;
         }
         static Calc fromLine(String s) {
             try {
                 String[] p = s.split("\\|", -1);
                 if (p.length == 8) {
-                    // Old v1.0-v1.3 format (had province at p[3]); province is now dropped
-                    return new Calc(p[1].equals("1"), p[2], p[4].equals("1"),
+                    // Old v1.0-v1.3 format (type at p[2], province at p[3]); both now dropped
+                    return new Calc(p[1].equals("1"), p[4].equals("1"),
                             Long.parseLong(p[5]), Double.parseDouble(p[6]), Long.parseLong(p[7]),
                             Long.parseLong(p[0]));
                 }
-                return new Calc(p[1].equals("1"), p[2], p[3].equals("1"),
-                        Long.parseLong(p[4]), Double.parseDouble(p[5]), Long.parseLong(p[6]),
+                if (p.length == 7) {
+                    // v1.4 format (type at p[2]); type now dropped
+                    return new Calc(p[1].equals("1"), p[3].equals("1"),
+                            Long.parseLong(p[4]), Double.parseDouble(p[5]), Long.parseLong(p[6]),
+                            Long.parseLong(p[0]));
+                }
+                return new Calc(p[1].equals("1"), p[2].equals("1"),
+                        Long.parseLong(p[3]), Double.parseDouble(p[4]), Long.parseLong(p[5]),
                         Long.parseLong(p[0]));
             } catch (Exception e) { return null; }
         }
@@ -325,7 +329,7 @@ public class MainActivity extends Activity {
         return false;
     }
     String shareText(Calc c) {
-        return "Property Tax Checker\n" + c.txn() + " · " + c.type + "\n"
+        return "Property Tax Checker\n" + c.txn() + "\n"
                 + "Property Value: " + TaxCalc.formatPkr(c.value) + "\n"
                 + "Applicable Rate: " + TaxCalc.formatRate(c.rate) + "% (Section " + c.section() + ")\n"
                 + "Estimated FBR Advance Tax: " + TaxCalc.formatPkr(c.tax) + "\n"
@@ -458,9 +462,9 @@ public class MainActivity extends Activity {
         txt.addView(tv("Get a quick and accurate estimate of your property tax in seconds.", 14, GREY, false));
         top.addView(txt);
         ImageView heroImg = new ImageView(this);
-        heroImg.setImageResource(R.drawable.hero_house_illustration);
+        heroImg.setImageResource(R.drawable.hero_banner);
         heroImg.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        heroImg.setLayoutParams(new LinearLayout.LayoutParams(dp(170), dp(170)));
+        heroImg.setLayoutParams(new LinearLayout.LayoutParams(dp(180), dp(122)));
         top.addView(heroImg);
         hero.addView(top); space(hero, 14);
         LinearLayout calcBtn = new LinearLayout(this);
@@ -493,7 +497,7 @@ public class MainActivity extends Activity {
         LinearLayout.LayoutParams dv = new LinearLayout.LayoutParams(dp(1), dp(40));
         dv.leftMargin = dp(14); dv.rightMargin = dp(14); div.setLayoutParams(dv);
         info.addView(div);
-        TextView it = tv("Tax rates may vary based on your property type, location and value.", 14, GREY, false);
+        TextView it = tv("Tax rates depend on transaction type, filer status and property value.", 14, GREY, false);
         it.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         info.addView(it);
         c.addView(info);
@@ -533,27 +537,6 @@ public class MainActivity extends Activity {
         sp.setLayoutParams(new LinearLayout.LayoutParams(dp(12), 1));
         r1.addView(sp); r1.addView(qa2);
         c.addView(r1); space(c, 20);
-        LinearLayout slog = new LinearLayout(this);
-        slog.setOrientation(LinearLayout.HORIZONTAL); slog.setGravity(Gravity.CENTER_VERTICAL);
-        slog.setPadding(dp(4), dp(4), dp(4), dp(4));
-        ImageView slogLogo = new ImageView(this);
-        slogLogo.setImageResource(R.drawable.logo_asset);
-        slogLogo.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        slogLogo.setLayoutParams(new LinearLayout.LayoutParams(dp(52), dp(60)));
-        slog.addView(slogLogo);
-        View div2 = new View(this);
-        div2.setBackgroundColor(BORDER);
-        LinearLayout.LayoutParams dv2 = new LinearLayout.LayoutParams(dp(1), dp(44));
-        dv2.leftMargin = dp(12); dv2.rightMargin = dp(12); div2.setLayoutParams(dv2);
-        slog.addView(div2);
-        LinearLayout st = new LinearLayout(this); st.setOrientation(LinearLayout.VERTICAL);
-        TextView s1 = tv("Smart Tax Decisions", 16, ACCENT, false);
-        s1.setTypeface(null, android.graphics.Typeface.ITALIC);
-        TextView s2 = tv("for a Better Tomorrow", 16, ACCENT, false);
-        s2.setTypeface(null, android.graphics.Typeface.ITALIC);
-        st.addView(s1); st.addView(s2);
-        slog.addView(st);
-        c.addView(slog);
         setContentView(shell(c, "Home"));
     }
 
@@ -576,10 +559,10 @@ public class MainActivity extends Activity {
         space(c, 14);
         LinearLayout toggle = new LinearLayout(this); toggle.setOrientation(LinearLayout.HORIZONTAL);
         toggle.setBackground(round(WHITE, 16)); toggle.setPadding(dp(4), dp(4), dp(4), dp(4));
-        buyBtn = new Button(this); buyBtn.setText("⌂  Buying"); buyBtn.setAllCaps(false);
+        buyBtn = new Button(this); buyBtn.setText("Buying"); buyBtn.setAllCaps(false);
         buyBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         buyBtn.setTypeface(null, android.graphics.Typeface.BOLD);
-        sellBtn = new Button(this); sellBtn.setText("◉  Selling"); sellBtn.setAllCaps(false);
+        sellBtn = new Button(this); sellBtn.setText("Selling"); sellBtn.setAllCaps(false);
         sellBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         sellBtn.setTypeface(null, android.graphics.Typeface.BOLD);
         buyBtn.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
@@ -608,16 +591,6 @@ public class MainActivity extends Activity {
             public void onCheckedChanged(RadioGroup g, int id) { filer = (id == 1001); }
         });
         c.addView(rg); space(c, 12);
-        fieldLabel(c, R.drawable.lucide_house, "Property Type");
-        Spinner typ = new Spinner(this);
-        typ.setBackground(inputBg());
-        typ.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, TYPES));
-        typ.setSelection(0);
-        typ.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> a, View v, int pos, long id) { ptype = TYPES[pos]; }
-            public void onNothingSelected(AdapterView<?> a) {}
-        });
-        c.addView(typ); space(c, 20);
         c.addView(greenBtn("Calculate Tax", new View.OnClickListener() {
             public void onClick(View v) {
                 String raw = valueEt.getText().toString().replaceAll("[^0-9]", "");
@@ -628,7 +601,7 @@ public class MainActivity extends Activity {
                 }
                 if (val <= 0) { Toast.makeText(MainActivity.this, "Please enter property value", Toast.LENGTH_SHORT).show(); return; }
                 double r = TaxCalc.rate(buying, filer, val);
-                lastCalc = new Calc(buying, ptype, filer, val, r, TaxCalc.tax(val, r), System.currentTimeMillis());
+                lastCalc = new Calc(buying, filer, val, r, TaxCalc.tax(val, r), System.currentTimeMillis());
                 showResult(lastCalc);
             }
         }));
@@ -701,13 +674,12 @@ public class MainActivity extends Activity {
         hr.addView(iconBoxImg(R.drawable.lucide_house));
         LinearLayout ht = new LinearLayout(this); ht.setOrientation(LinearLayout.VERTICAL);
         ht.setPadding(dp(10), 0, 0, 0);
-        ht.addView(tv(calc.txn() + " · " + calc.type, 16, TEXT, true));
+        ht.addView(tv(calc.txn(), 16, TEXT, true));
         TextView badge = tv(calc.filer ? "Filer" : "Non-Filer", 12, GREEN, true);
         badge.setBackground(round(LIGHT, 12)); badge.setPadding(dp(10), dp(4), dp(10), dp(4));
         ht.addView(badge); hr.addView(ht); head.addView(hr);
         LinearLayout det = card(c);
         row(det, "Property Value", TaxCalc.formatPkr(calc.value));
-        row(det, "Property Type", calc.type);
         row(det, "Applied Rate", TaxCalc.formatRate(calc.rate) + "%");
         row(det, "FBR Section", calc.section());
         LinearLayout green = new LinearLayout(this);
@@ -769,7 +741,7 @@ public class MainActivity extends Activity {
             LinearLayout mid = new LinearLayout(this); mid.setOrientation(LinearLayout.VERTICAL);
             mid.setPadding(dp(10), 0, 0, 0);
             mid.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-            mid.addView(tv(calc.txn() + " · " + calc.type, 15, TEXT, true));
+            mid.addView(tv(calc.txn(), 15, TEXT, true));
             mid.addView(tv(TaxCalc.formatPkr(calc.value), 14, TEXT, false));
             mid.addView(tv("Tax: " + TaxCalc.formatPkr(calc.tax) + " (" + TaxCalc.formatRate(calc.rate) + "%)", 14, GREEN, true));
             mid.addView(tv(dateStr(calc.time), 12, GREY, false));
@@ -884,7 +856,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) { ratesBack = "settings"; showRates(); }
         });
         settingsRow(c, R.drawable.lucide_circle_question_mark, "FAQs", new View.OnClickListener() {
-            public void onClick(View v) { showInfo("FAQs", "Q: Is this the full cost of buying/selling?\nA: No. This is only the FBR advance tax. Provincial duties, stamp duty, registration fees and other charges are not included.\n\nQ: Does province change the rate?\nA: No - the same rate applies in every province, so the app does not ask for province at all. The rate depends only on Buying/Selling, Filer/Non-Filer, and (for buying non-filers) the property value slab.\n\nQ: What is a filer?\nA: A person on the Active Taxpayer List (ATL). Non-filers pay the higher rates shown in Tax Rates.\n\nQ: Are rates fixed forever?\nA: No. FBR rates can change with the budget. Always confirm from FBR official sources."); }
+            public void onClick(View v) { showInfo("FAQs", "Q: Is this the full cost of buying/selling?\nA: No. This is only the FBR advance tax. Provincial duties, stamp duty, registration fees and other charges are not included.\n\nQ: Does province change the rate?\nA: No - the same rate applies in every province, so the app does not ask for province at all. The rate depends only on Buying/Selling, Filer/Non-Filer, and (for buying non-filers) the property value slab. Property type is not asked either - it does not change the rate.\n\nQ: What is a filer?\nA: A person on the Active Taxpayer List (ATL). Non-filers pay the higher rates shown in Tax Rates.\n\nQ: Are rates fixed forever?\nA: No. FBR rates can change with the budget. Always confirm from FBR official sources."); }
         });
         settingsRow(c, R.drawable.lucide_shield_check, "Privacy Policy", new View.OnClickListener() {
             public void onClick(View v) { showInfo("Privacy Policy", "This app does not collect, send or sell your personal data.\n\nCalculations are performed on your device. Calculation history is saved only in this app on your phone, and you can delete it any time from History (trash icon).\n\nNo account, no sign-in, no tracking."); }
