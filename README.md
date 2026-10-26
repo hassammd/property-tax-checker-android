@@ -118,3 +118,30 @@ Home rebuilt from the user's asset sheet + blue homepage reference:
   and FAQs updated. Old history (with type/province) still loads — fromLine
   handles v1.0-v1.3 (8 fields), v1.4 (7 fields) and new (6 fields) formats.
 - Calculator now: Buying/Selling toggle, Property Value, Taxpayer Status only.
+
+## v1.6.0 — New hero image, text lines fixed, Home icons matched to reference
+- Hero banner: user's latest house image (light blue blob background) replaces
+  the v1.5 black-background image, saved as hero_banner.webp 900x600 (53 KB).
+  Image SHRUNK to 130x87dp in the hero card (was 180x122) so the text column is
+  wider.
+- Text lines: hero heading "Know Your / Property Tax" is now 24sp with
+  maxLines=2 (was 28sp, wrapping to more lines on narrow text column); subtext
+  is 13sp with maxLines=3 (was 14sp, wrapping to 4+ lines). Reference layout
+  (heading 2 lines, subtext 3 lines) now holds.
+- Home icons matched to the blue reference, re-checked against it:
+  * Top header logo UNCHANGED (user: perfect) — asset-sheet house + gold leaf.
+  * Quick Actions icons are now PROPER CIRCLES: 56dp OVAL Soft #D9E9FF circle,
+    28dp Primary icon centered (was a 14dp-radius rounded square). Tax Rates =
+    file-text document icon, History = clock-with-arrow icon (new
+    lucide_history: Lucide history geometry, arc + arrowhead + hands), matching
+    the reference History icon which is not a plain clock.
+  * Bottom nav: Home = SOLID filled house when selected (new
+    lucide_house_filled, door cutout in drawable, untinted so the cutout stays),
+    outline house when unselected; Calculator = calculator outline; History =
+    clock-with-arrow; Settings = gear outline — as in the reference nav.
+  * Info strip: proper filled Primary 48dp circle with white "i" (reference
+    style), was an outline-info icon in a pill.
+  * Profile: proper Soft 48dp circle with FILLED person silhouette (new
+    lucide_user_filled), matching the reference profile circle.
+  * Calculator field icons and Settings row icons are now plain Primary icons
+    (no box), as in the mockup field/icon rows.

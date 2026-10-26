@@ -159,10 +159,13 @@ public class MainActivity extends Activity {
 
     LinearLayout iconBoxImg(int res) {
         LinearLayout box = new LinearLayout(this);
-        box.setBackground(round(SOFT, 14));
-        box.setPadding(dp(12), dp(10), dp(12), dp(10));
+        GradientDrawable bg = new GradientDrawable();
+        bg.setShape(GradientDrawable.OVAL);
+        bg.setColor(SOFT);
+        box.setBackground(bg);
+        box.setLayoutParams(new LinearLayout.LayoutParams(dp(56), dp(56)));
         box.setGravity(Gravity.CENTER);
-        box.addView(iconImg(res, GREEN, 24));
+        box.addView(iconImg(res, GREEN, 28));
         return box;
     }
 
@@ -170,7 +173,7 @@ public class MainActivity extends Activity {
         LinearLayout r = new LinearLayout(this);
         r.setOrientation(LinearLayout.HORIZONTAL);
         r.setGravity(Gravity.CENTER_VERTICAL);
-        r.addView(iconBoxImg(iconRes));
+        r.addView(iconImg(iconRes, GREEN, 22));
         TextView l = tv(label, 14, TEXT, true);
         l.setPadding(dp(10), 0, 0, 0);
         r.addView(l);
@@ -236,7 +239,7 @@ public class MainActivity extends Activity {
         nav.setBackgroundColor(WHITE);
         nav.setPadding(dp(4), dp(8), dp(4), dp(8));
         String[] items = {"Home", "Calculator", "History", "Settings"};
-        int[] icons = {R.drawable.lucide_house, R.drawable.lucide_calculator, R.drawable.lucide_clock, R.drawable.lucide_settings};
+        int[] icons = {R.drawable.lucide_house, R.drawable.lucide_calculator, R.drawable.lucide_history, R.drawable.lucide_settings};
         for (int i = 0; i < items.length; i++) {
             final String item = items[i];
             LinearLayout col = new LinearLayout(this);
@@ -244,7 +247,16 @@ public class MainActivity extends Activity {
             col.setGravity(Gravity.CENTER);
             col.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
             boolean sel = item.equals(selected);
-            ImageView ic = iconImg(icons[i], sel ? GREEN : MUTED, 22);
+            ImageView ic;
+            if (i == 0 && sel) {
+                // Reference Home tab is a SOLID house (door cutout is in the drawable);
+                // do NOT tint it, or the cutout would tint too.
+                ic = new ImageView(this);
+                ic.setImageResource(R.drawable.lucide_house_filled);
+                ic.setLayoutParams(new LinearLayout.LayoutParams(dp(22), dp(22)));
+            } else {
+                ic = iconImg(icons[i], sel ? GREEN : MUTED, 22);
+            }
             TextView lb = tv(item, 11, sel ? GREEN : MUTED, sel);
             lb.setGravity(Gravity.CENTER);
             col.addView(ic); col.addView(lb);
@@ -442,9 +454,13 @@ public class MainActivity extends Activity {
         ht.addView(tv("Checker", 16, GREY, false));
         head.addView(ht);
         LinearLayout prof = new LinearLayout(this);
-        prof.setBackground(round(SOFT, 24)); prof.setPadding(dp(10), dp(8), dp(10), dp(8));
+        GradientDrawable pg = new GradientDrawable();
+        pg.setShape(GradientDrawable.OVAL);
+        pg.setColor(SOFT);
+        prof.setBackground(pg);
+        prof.setLayoutParams(new LinearLayout.LayoutParams(dp(48), dp(48)));
         prof.setGravity(Gravity.CENTER);
-        prof.addView(iconImg(R.drawable.lucide_user, GREEN, 22));
+        prof.addView(iconImg(R.drawable.lucide_user_filled, GREEN, 24));
         head.addView(prof);
         c.addView(head); space(c, 16);
         LinearLayout hero = new LinearLayout(this);
@@ -458,13 +474,13 @@ public class MainActivity extends Activity {
         txt.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         TextView cap = tv("YOUR PROPERTY", 11, ACCENT, true);
         cap.setLetterSpacing(0.2f); txt.addView(cap); space(txt, 6);
-        txt.addView(tv("Know Your\nProperty Tax", 28, TEXT, true)); space(txt, 8);
-        txt.addView(tv("Get a quick and accurate estimate of your property tax in seconds.", 14, GREY, false));
+        TextView hd = tv("Know Your\nProperty Tax", 24, TEXT, true); hd.setMaxLines(2); txt.addView(hd); space(txt, 8);
+        TextView sb = tv("Get a quick and accurate estimate of your property tax in seconds.", 13, GREY, false); sb.setMaxLines(3); txt.addView(sb);
         top.addView(txt);
         ImageView heroImg = new ImageView(this);
         heroImg.setImageResource(R.drawable.hero_banner);
         heroImg.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        heroImg.setLayoutParams(new LinearLayout.LayoutParams(dp(180), dp(122)));
+        heroImg.setLayoutParams(new LinearLayout.LayoutParams(dp(130), dp(87)));
         top.addView(heroImg);
         hero.addView(top); space(hero, 14);
         LinearLayout calcBtn = new LinearLayout(this);
@@ -488,9 +504,13 @@ public class MainActivity extends Activity {
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         ip.bottomMargin = dp(12); info.setLayoutParams(ip);
         LinearLayout ii = new LinearLayout(this);
-        ii.setBackground(round(GREEN, 20)); ii.setPadding(dp(12), dp(8), dp(12), dp(8));
+        GradientDrawable ig = new GradientDrawable();
+        ig.setShape(GradientDrawable.OVAL);
+        ig.setColor(GREEN);
+        ii.setBackground(ig);
+        ii.setLayoutParams(new LinearLayout.LayoutParams(dp(48), dp(48)));
         ii.setGravity(Gravity.CENTER);
-        ii.addView(iconImg(R.drawable.lucide_info, WHITE, 20));
+        ii.addView(tv("i", 20, WHITE, true));
         info.addView(ii);
         View div = new View(this);
         div.setBackgroundColor(BORDER);
@@ -521,7 +541,7 @@ public class MainActivity extends Activity {
         LinearLayout qa2 = new LinearLayout(this); qa2.setOrientation(LinearLayout.VERTICAL);
         qa2.setBackground(inputBg()); qa2.setPadding(dp(16), dp(16), dp(16), dp(16));
         qa2.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-        qa2.addView(iconBoxImg(R.drawable.lucide_clock));
+        qa2.addView(iconBoxImg(R.drawable.lucide_history));
         space(qa2, 8);
         LinearLayout t2 = new LinearLayout(this); t2.setOrientation(LinearLayout.HORIZONTAL);
         TextView tt2 = tv("History", 16, TEXT, true);
@@ -836,7 +856,7 @@ public class MainActivity extends Activity {
         LinearLayout item = card(parent);
         LinearLayout r = new LinearLayout(this); r.setOrientation(LinearLayout.HORIZONTAL);
         r.setGravity(Gravity.CENTER_VERTICAL);
-        r.addView(iconBoxImg(iconRes));
+        r.addView(iconImg(iconRes, GREEN, 22));
         TextView l = tv(title, 16, TEXT, true);
         l.setPadding(dp(10), 0, 0, 0);
         l.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
