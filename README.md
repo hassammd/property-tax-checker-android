@@ -82,3 +82,22 @@ Home rebuilt from the user's asset sheet + blue homepage reference:
   separate transparent asset files, so assets were cropped (hero) or redrawn as
   vectors (logo/icons) to match it. If separate transparent PNGs are supplied,
   they can be swapped in 1:1.
+
+## v1.4.0 — Proper Lucide icons + Province removed
+- Icons: all visible icons are now real Lucide library icons (ISC license, free),
+  downloaded from github.com/lucide-icons/lucide (icons/ folder) and converted to
+  Android vector drawables (res/drawable/lucide_*.xml), tinted at runtime with the
+  user's blue palette (Primary #173F7A, Secondary #2456A6, Muted #7588A3, White).
+  No more text-symbol icons (⌂/▤/◷/⚙ etc.) in nav, header, Quick Actions,
+  Calculator fields, Settings rows, or top-bar actions. Nav: house / calculator /
+  clock / settings. Fields: house / user / house. Settings: info / percent /
+  circle-question-mark / shield-check / mail. Top bar: calculator / share-2 /
+  trash / settings.
+- Top header logo: now the asset-sheet logo itself, cropped from the sheet
+  (blue house + gold leaf, light tile, black corners made transparent,
+  res/drawable-nodpi/logo_asset.png) — not a redraw. The user also offered to
+  send a single top icon; when it arrives it will replace this crop 1:1.
+- Province REMOVED (user, 2026-10-26): same rate applies in every province, so
+  Calculator no longer asks for Province, Details no longer shows it, and FAQs
+  say the app does not ask for province. Old saved history (v1.0-v1.3, with
+  province) still loads — fromLine handles both formats, province ignored.
