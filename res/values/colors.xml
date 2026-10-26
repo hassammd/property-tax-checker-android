@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="green">#0E6B4F</color>
-    <color name="green_dark">#0A5340</color>
-    <color name="mint">#EFF7F2</color>
+    <color name="green">#173F7A</color>
+    <color name="green_dark">#173F7A</color>
+    <color name="mint">#EAF3FF</color>
     <color name="white">#FFFFFF</color>
-    <color name="text_dark">#122B22</color>
-    <color name="text_grey">#5A6B64</color>
+    <color name="text_dark">#18365F</color>
+    <color name="text_grey">#536B8E</color>
 </resources>

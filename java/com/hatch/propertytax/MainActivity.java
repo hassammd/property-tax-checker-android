@@ -39,13 +39,18 @@ import java.util.Locale;
  * Calculation logic lives in TaxCalc (unchanged from v1.0.0).
  */
 public class MainActivity extends Activity {
-    static final int GREEN = 0xFF0E6B4F;
-    static final int DARK = 0xFF0A5340;
-    static final int BG = 0xFFF2F8F4;
-    static final int LIGHT = 0xFFE2F1E8;
-    static final int BORDER = 0xFFDCE9DF;
-    static final int GREY = 0xFF66796F;
-    static final int TEXT = 0xFF122B22;
+    static final int GREEN = 0xFF173F7A; // Primary (user palette)
+    static final int DARK = 0xFF173F7A;
+    static final int SECONDARY = 0xFF2456A6;
+    static final int ACCENT = 0xFF4F8FE8;
+    static final int SOFT = 0xFFD9E9FF;
+    static final int MUTED = 0xFF7588A3;
+    static final int GOLD = 0xFFD9A441;
+    static final int BG = 0xFFF7FAFE; // Main Background
+    static final int LIGHT = 0xFFEAF3FF; // Hero Background
+    static final int BORDER = 0xFFD7E5FA;
+    static final int GREY = 0xFF536B8E; // Secondary Text
+    static final int TEXT = 0xFF18365F; // Primary Text
     static final int WHITE = 0xFFFFFFFF;
 
     static final String[] PROVINCES = {"Punjab", "Sindh", "Khyber Pakhtunkhwa", "Balochistan",
@@ -130,7 +135,7 @@ public class MainActivity extends Activity {
 
     TextView iconBox(String icon) {
         TextView t = tv(icon, 22, GREEN, false);
-        t.setBackground(round(LIGHT, 14));
+        t.setBackground(round(SOFT, 14));
         t.setPadding(dp(12), dp(10), dp(12), dp(10));
         t.setGravity(Gravity.CENTER);
         return t;
@@ -214,9 +219,15 @@ public class MainActivity extends Activity {
             boolean sel = item.equals(selected);
             TextView ic = tv(icons[i], 22, sel ? GREEN : GREY, sel);
             ic.setGravity(Gravity.CENTER);
-            TextView lb = tv(item, 11, sel ? GREEN : GREY, sel);
+            TextView lb = tv(item, 11, sel ? GREEN : MUTED, sel);
             lb.setGravity(Gravity.CENTER);
             col.addView(ic); col.addView(lb);
+            if (sel) {
+                View bar = new View(this);
+                bar.setBackground(round(GREEN, 2));
+                bar.setLayoutParams(new LinearLayout.LayoutParams(dp(28), dp(3)));
+                col.addView(bar);
+            }
             col.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     if (item.equals("Home")) showHome();
@@ -393,47 +404,128 @@ public class MainActivity extends Activity {
         LinearLayout c = col();
         LinearLayout head = new LinearLayout(this);
         head.setOrientation(LinearLayout.HORIZONTAL); head.setGravity(Gravity.CENTER_VERTICAL);
-        TextView ic = tv("⌂", 26, WHITE, true);
-        ic.setBackground(round(GREEN, 20)); ic.setPadding(dp(12), dp(8), dp(12), dp(8));
-        head.addView(ic);
+        ImageView logo = new ImageView(this);
+        logo.setImageResource(R.drawable.ic_logo_house_leaf);
+        logo.setLayoutParams(new LinearLayout.LayoutParams(dp(52), dp(52)));
+        head.addView(logo);
         LinearLayout ht = new LinearLayout(this); ht.setOrientation(LinearLayout.VERTICAL);
         ht.setPadding(dp(10), 0, 0, 0);
-        ht.addView(tv("Property Tax Checker", 18, TEXT, true));
-        ht.addView(tv("Buying & Selling", 13, GREY, false));
-        head.addView(ht); c.addView(head); space(c, 16);
-        LinearLayout banner = card(c);
-        banner.addView(tv("Your Property.\nOur Calculation.", 22, TEXT, true));
-        banner.addView(tv("Know your tax before you buy or sell.", 14, GREY, false));
-        space(banner, 6);
-        LinearLayout ill = new LinearLayout(this);
-        ill.setOrientation(LinearLayout.HORIZONTAL);
-        ill.addView(iconBox("⌂"));
-        TextView calcIc = tv("▤", 26, GREEN, false);
-        calcIc.setPadding(dp(12), 0, 0, 0);
-        ill.addView(calcIc);
-        banner.addView(ill);
-        LinearLayout r1 = new LinearLayout(this); r1.setOrientation(LinearLayout.HORIZONTAL);
-        homeCard(r1, "▤", "Calculate Tax", "Get instant estimate", new View.OnClickListener() {
+        ht.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        ht.addView(tv("Property Tax", 21, TEXT, true));
+        ht.addView(tv("Checker", 16, GREY, false));
+        head.addView(ht);
+        TextView prof = tv("👤", 20, GREEN, false);
+        prof.setBackground(round(SOFT, 24)); prof.setPadding(dp(12), dp(10), dp(12), dp(10));
+        head.addView(prof);
+        c.addView(head); space(c, 16);
+        LinearLayout hero = new LinearLayout(this);
+        hero.setOrientation(LinearLayout.VERTICAL);
+        hero.setBackground(round(LIGHT, 20)); hero.setPadding(dp(20), dp(20), dp(20), dp(20));
+        LinearLayout.LayoutParams hp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        hp.bottomMargin = dp(12); hero.setLayoutParams(hp);
+        LinearLayout top = new LinearLayout(this); top.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout txt = new LinearLayout(this); txt.setOrientation(LinearLayout.VERTICAL);
+        txt.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        TextView cap = tv("YOUR PROPERTY", 11, ACCENT, true);
+        cap.setLetterSpacing(0.2f); txt.addView(cap); space(txt, 6);
+        txt.addView(tv("Know Your\nProperty Tax", 28, TEXT, true)); space(txt, 8);
+        txt.addView(tv("Get a quick and accurate estimate of your property tax in seconds.", 14, GREY, false));
+        top.addView(txt);
+        ImageView heroImg = new ImageView(this);
+        heroImg.setImageResource(R.drawable.hero_house);
+        heroImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        heroImg.setLayoutParams(new LinearLayout.LayoutParams(dp(150), dp(170)));
+        top.addView(heroImg);
+        hero.addView(top); space(hero, 14);
+        LinearLayout calcBtn = new LinearLayout(this);
+        calcBtn.setOrientation(LinearLayout.HORIZONTAL); calcBtn.setGravity(Gravity.CENTER_VERTICAL);
+        calcBtn.setBackground(round(GREEN, 16)); calcBtn.setPadding(dp(20), dp(16), dp(20), dp(16));
+        calcBtn.addView(tv("▤", 22, WHITE, true));
+        TextView ct = tv("Calculate Tax", 17, WHITE, true);
+        ct.setPadding(dp(12), 0, 0, 0);
+        ct.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        calcBtn.addView(ct);
+        calcBtn.addView(tv("→", 22, WHITE, true));
+        calcBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { showCalculator(); }
         });
-        LinearLayout spacer = new LinearLayout(this);
-        spacer.setLayoutParams(new LinearLayout.LayoutParams(dp(12), 1));
-        r1.addView(spacer);
-        homeCard(r1, "%", "Tax Rates", "View current rates", new View.OnClickListener() {
+        hero.addView(calcBtn);
+        c.addView(hero);
+        LinearLayout info = new LinearLayout(this);
+        info.setOrientation(LinearLayout.HORIZONTAL); info.setGravity(Gravity.CENTER_VERTICAL);
+        info.setBackground(round(LIGHT, 16)); info.setPadding(dp(16), dp(16), dp(16), dp(16));
+        LinearLayout.LayoutParams ip = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        ip.bottomMargin = dp(12); info.setLayoutParams(ip);
+        TextView ii = tv("i", 18, WHITE, true);
+        ii.setBackground(round(GREEN, 20)); ii.setPadding(dp(14), dp(8), dp(14), dp(8));
+        info.addView(ii);
+        View div = new View(this);
+        div.setBackgroundColor(BORDER);
+        LinearLayout.LayoutParams dv = new LinearLayout.LayoutParams(dp(1), dp(40));
+        dv.leftMargin = dp(14); dv.rightMargin = dp(14); div.setLayoutParams(dv);
+        info.addView(div);
+        TextView it = tv("Tax rates may vary based on your property type, location and value.", 14, GREY, false);
+        it.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        info.addView(it);
+        c.addView(info);
+        space(c, 8);
+        c.addView(tv("Quick Actions", 22, TEXT, true)); space(c, 12);
+        LinearLayout r1 = new LinearLayout(this); r1.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout qa1 = new LinearLayout(this); qa1.setOrientation(LinearLayout.VERTICAL);
+        qa1.setBackground(inputBg()); qa1.setPadding(dp(16), dp(16), dp(16), dp(16));
+        qa1.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        qa1.addView(iconBox("🗎"));
+        space(qa1, 8);
+        LinearLayout t1 = new LinearLayout(this); t1.setOrientation(LinearLayout.HORIZONTAL);
+        TextView tt1 = tv("Tax Rates", 16, TEXT, true);
+        tt1.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        t1.addView(tt1); t1.addView(tv("→", 18, SECONDARY, false));
+        qa1.addView(t1);
+        qa1.addView(tv("View current FBR rates and guidelines.", 13, GREY, false));
+        qa1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { ratesBack = "home"; showRates(); }
         });
-        c.addView(r1);
-        LinearLayout r2 = new LinearLayout(this); r2.setOrientation(LinearLayout.HORIZONTAL);
-        homeCard(r2, "◷", "History", "Your past calculations", new View.OnClickListener() {
+        LinearLayout qa2 = new LinearLayout(this); qa2.setOrientation(LinearLayout.VERTICAL);
+        qa2.setBackground(inputBg()); qa2.setPadding(dp(16), dp(16), dp(16), dp(16));
+        qa2.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        qa2.addView(iconBox("◷"));
+        space(qa2, 8);
+        LinearLayout t2 = new LinearLayout(this); t2.setOrientation(LinearLayout.HORIZONTAL);
+        TextView tt2 = tv("History", 16, TEXT, true);
+        tt2.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        t2.addView(tt2); t2.addView(tv("→", 18, SECONDARY, false));
+        qa2.addView(t2);
+        qa2.addView(tv("Check your past calculations.", 13, GREY, false));
+        qa2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { showHistory(); }
         });
-        LinearLayout sp2 = new LinearLayout(this);
-        sp2.setLayoutParams(new LinearLayout.LayoutParams(dp(12), 1));
-        r2.addView(sp2);
-        homeCard(r2, "⚙", "Settings", "App preferences", new View.OnClickListener() {
-            public void onClick(View v) { showSettings(); }
-        });
-        c.addView(r2);
+        r1.addView(qa1);
+        LinearLayout sp = new LinearLayout(this);
+        sp.setLayoutParams(new LinearLayout.LayoutParams(dp(12), 1));
+        r1.addView(sp); r1.addView(qa2);
+        c.addView(r1); space(c, 20);
+        LinearLayout slog = new LinearLayout(this);
+        slog.setOrientation(LinearLayout.HORIZONTAL); slog.setGravity(Gravity.CENTER_VERTICAL);
+        slog.setPadding(dp(4), dp(4), dp(4), dp(4));
+        ImageView slogLogo = new ImageView(this);
+        slogLogo.setImageResource(R.drawable.ic_logo_house_leaf);
+        slogLogo.setLayoutParams(new LinearLayout.LayoutParams(dp(64), dp(48)));
+        slog.addView(slogLogo);
+        View div2 = new View(this);
+        div2.setBackgroundColor(BORDER);
+        LinearLayout.LayoutParams dv2 = new LinearLayout.LayoutParams(dp(1), dp(44));
+        dv2.leftMargin = dp(12); dv2.rightMargin = dp(12); div2.setLayoutParams(dv2);
+        slog.addView(div2);
+        LinearLayout st = new LinearLayout(this); st.setOrientation(LinearLayout.VERTICAL);
+        TextView s1 = tv("Smart Tax Decisions", 16, ACCENT, false);
+        s1.setTypeface(null, android.graphics.Typeface.ITALIC);
+        TextView s2 = tv("for a Better Tomorrow", 16, ACCENT, false);
+        s2.setTypeface(null, android.graphics.Typeface.ITALIC);
+        st.addView(s1); st.addView(s2);
+        slog.addView(st);
+        c.addView(slog);
         setContentView(shell(c, "Home"));
     }
 
