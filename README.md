@@ -174,3 +174,15 @@ Home rebuilt from the user's asset sheet + blue homepage reference:
   clouds are white, so on the card's very light background they now look
   fainter than they did on the darker blob — that is inherent to removing
   the blob, not a defect in the house.
+
+## v1.6.3 — Sky + clouds restored, only the colour behind them removed (user correction)
+- CORRECTION to v1.6.2: v1.6.2 removed too much — it removed the pale-blue
+  sky blob AND the clouds. User clarified: sky and clouds must STAY; only the
+  light colour BEHIND them was to be removed.
+- Fix: hero_banner.webp rebuilt from the v1.6.1 crop with ONLY flood-fill
+  background removal from the 4 corners (thresh 40, stops at the sky blob).
+  No blob-pixel removal at all. Result, verified on the card colour #EAF3FF:
+  sky blob intact, clouds solid white intact, house/trees/grass intact, outer
+  background transparent (card colour shows around the blob, no white
+  rectangular patch). Size/layout UNCHANGED (160x127dp, heading 2 lines,
+  subtext 3 lines). Banner is now in place; next page work can follow.
