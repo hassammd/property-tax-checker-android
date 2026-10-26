@@ -108,10 +108,24 @@ public class MainActivity extends Activity {
         d.setColor(WHITE); d.setCornerRadius(dp(12)); d.setStroke(dp(1), BORDER); return d;
     }
 
+    static android.graphics.Typeface poppinsR, poppinsB;
+    android.graphics.Typeface poppins(boolean bold) {
+        try {
+            if (bold) {
+                if (poppinsB == null) poppinsB = android.graphics.Typeface.createFromAsset(getAssets(), "fonts/Poppins-Bold.ttf");
+                return poppinsB;
+            }
+            if (poppinsR == null) poppinsR = android.graphics.Typeface.createFromAsset(getAssets(), "fonts/Poppins-Regular.ttf");
+            return poppinsR;
+        } catch (Exception e) {
+            return bold ? android.graphics.Typeface.DEFAULT_BOLD : android.graphics.Typeface.DEFAULT;
+        }
+    }
+
     TextView tv(String text, int sp, int color, boolean bold) {
         TextView t = new TextView(this);
         t.setText(text); t.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp);
-        t.setTextColor(color); if (bold) t.setTypeface(null, android.graphics.Typeface.BOLD);
+        t.setTextColor(color); t.setTypeface(poppins(bold));
         return t;
     }
 
@@ -184,7 +198,7 @@ public class MainActivity extends Activity {
         Button b = new Button(this);
         b.setText(text); b.setAllCaps(false);
         b.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        b.setTypeface(null, android.graphics.Typeface.BOLD);
+        b.setTypeface(poppins(true));
         b.setTextColor(WHITE); b.setBackground(round(GREEN, 28));
         b.setMinHeight(dp(52));
         b.setPadding(dp(16), dp(14), dp(16), dp(14));
@@ -197,7 +211,7 @@ public class MainActivity extends Activity {
         Button b = new Button(this);
         b.setText(text); b.setAllCaps(false);
         b.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        b.setTypeface(null, android.graphics.Typeface.BOLD);
+        b.setTypeface(poppins(true));
         b.setTextColor(GREEN);
         GradientDrawable d = new GradientDrawable();
         d.setColor(WHITE); d.setCornerRadius(dp(28)); d.setStroke(dp(1), GREEN);
@@ -582,10 +596,10 @@ public class MainActivity extends Activity {
         toggle.setBackground(round(WHITE, 16)); toggle.setPadding(dp(4), dp(4), dp(4), dp(4));
         buyBtn = new Button(this); buyBtn.setText("Buying"); buyBtn.setAllCaps(false);
         buyBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        buyBtn.setTypeface(null, android.graphics.Typeface.BOLD);
+        buyBtn.setTypeface(poppins(true));
         sellBtn = new Button(this); sellBtn.setText("Selling"); sellBtn.setAllCaps(false);
         sellBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        sellBtn.setTypeface(null, android.graphics.Typeface.BOLD);
+        sellBtn.setTypeface(poppins(true));
         buyBtn.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         sellBtn.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         buyBtn.setOnClickListener(new View.OnClickListener() {
@@ -597,15 +611,15 @@ public class MainActivity extends Activity {
         toggle.addView(buyBtn); toggle.addView(sellBtn); c.addView(toggle);
         updateToggle(); space(c, 16);
         fieldLabel(c, R.drawable.lucide_house, "Property Value (PKR)");
-        final EditText valueEt = new EditText(this);
+        final EditText valueEt = new EditText(this); valueEt.setTypeface(poppins(false));
         valueEt.setHint("Enter property value  e.g. 10,000,000");
         valueEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         valueEt.setBackground(inputBg()); valueEt.setPadding(dp(14), dp(14), dp(14), dp(14));
         c.addView(valueEt); space(c, 16);
         fieldLabel(c, R.drawable.lucide_user, "Taxpayer Status");
         RadioGroup rg = new RadioGroup(this);
-        RadioButton fr = new RadioButton(this); fr.setText("Filer (Active Taxpayer List)"); fr.setId(1001);
-        RadioButton nf = new RadioButton(this); nf.setText("Non-Filer (Not on ATL)"); nf.setId(1002);
+        RadioButton fr = new RadioButton(this); fr.setTypeface(poppins(false)); fr.setText("Filer (Active Taxpayer List)"); fr.setId(1001);
+        RadioButton nf = new RadioButton(this); nf.setTypeface(poppins(false)); nf.setText("Non-Filer (Not on ATL)"); nf.setId(1002);
         rg.addView(fr); rg.addView(nf);
         rg.check(filer ? 1001 : 1002);
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -793,10 +807,10 @@ public class MainActivity extends Activity {
         LinearLayout toggle = new LinearLayout(this); toggle.setOrientation(LinearLayout.HORIZONTAL);
         toggle.setBackground(round(WHITE, 16)); toggle.setPadding(dp(4), dp(4), dp(4), dp(4));
         final Button tb = new Button(this); tb.setText("Buying"); tb.setAllCaps(false);
-        tb.setTypeface(null, android.graphics.Typeface.BOLD);
+        tb.setTypeface(poppins(true));
         tb.setBackground(round(GREEN, 12)); tb.setTextColor(WHITE);
         final Button ts = new Button(this); ts.setText("Selling"); ts.setAllCaps(false);
-        ts.setTypeface(null, android.graphics.Typeface.BOLD);
+        ts.setTypeface(poppins(true));
         ts.setBackground(round(WHITE, 12)); ts.setTextColor(GREEN);
         tb.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         ts.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));

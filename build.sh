@@ -38,6 +38,9 @@ echo "== d8 =="
 echo "== add dex (APK) =="
 (cd build/dex && zip -q ../base.apk classes.dex)
 
+echo "== add assets (Poppins fonts) =="
+if [ -d "$PROJ/assets" ]; then (cd "$PROJ" && zip -q -r build/base.apk assets); fi
+
 echo "== zipalign =="
 "$BT/zipalign" -f 4 build/base.apk build/aligned.apk
 
@@ -51,6 +54,6 @@ echo "== verify APK =="
 "$BT/aapt2" dump badging build/final.apk | grep -E "package:|launchable-activity:|application-label:"
 
 mkdir -p "$OUTDIR"
-cp build/final.apk "$OUTDIR/property-tax-checker-v1.6.3.apk"
-ls -la "$OUTDIR/property-tax-checker-v1.6.3.apk"
+cp build/final.apk "$OUTDIR/property-tax-checker-v1.7.0.apk"
+ls -la "$OUTDIR/property-tax-checker-v1.7.0.apk"
 echo BUILD_OK

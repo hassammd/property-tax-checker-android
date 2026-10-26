@@ -186,3 +186,19 @@ Home rebuilt from the user's asset sheet + blue homepage reference:
   background transparent (card colour shows around the blob, no white
   rectangular patch). Size/layout UNCHANGED (160x127dp, heading 2 lines,
   subtext 3 lines). Banner is now in place; next page work can follow.
+
+## v1.7.0 — Reference font (Poppins) app-wide + info icon matched
+- Font identified from the reference (orange-circled heading, zoomed):
+  Poppins, Google Fonts (OFL, free). Evidence: geometric sans, near-perfect
+  circle "o", straight "y" descender, flat terminals, double-storey "a" —
+  Nunito's softer rounded "y"/"g" do not match the reference letters.
+  Downloaded from github.com/google/fonts (ofl/poppins): Poppins-Regular.ttf
+  + Poppins-Bold.ttf (+ OFL.txt), verified with fontTools, stored in
+  assets/fonts/ and shipped inside the APK (build.sh now zips assets in).
+- Applied app-wide: every TextView (tv helper), Buttons, EditText and
+  RadioButtons now use Poppins — Regular for body, Bold for headings/buttons.
+  No screen is left on the default Android font.
+- Info icon matched to reference: filled Primary 48dp circle with a white
+  "i" — now in Poppins Bold, so the "i" dot/stem shape matches the reference
+  "i" exactly (previously Roboto Bold). Circle size, divider and strip
+  layout unchanged from v1.6 (which already matched the reference strip).
