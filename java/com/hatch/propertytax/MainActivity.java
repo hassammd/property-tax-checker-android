@@ -187,8 +187,8 @@ public class MainActivity extends Activity {
         LinearLayout r = new LinearLayout(this);
         r.setOrientation(LinearLayout.HORIZONTAL);
         r.setGravity(Gravity.CENTER_VERTICAL);
-        r.addView(iconImg(iconRes, GREEN, 22));
-        TextView l = tv(label, 14, TEXT, true);
+        r.addView(iconImg(iconRes, GREEN, 24));
+        TextView l = tv(label, 16, TEXT, true);
         l.setPadding(dp(10), 0, 0, 0);
         r.addView(l);
         parent.addView(r); space(parent, 8);
@@ -568,23 +568,64 @@ public class MainActivity extends Activity {
 
     void updateToggle() {
         if (buyBtn == null) return;
-        buyBtn.setBackground(buying ? round(GREEN, 12) : round(WHITE, 12));
+        buyBtn.setBackground(buying ? round(GREEN, 20) : round(WHITE, 20));
         buyBtn.setTextColor(buying ? WHITE : GREY);
-        sellBtn.setBackground(!buying ? round(GREEN, 12) : round(WHITE, 12));
+        sellBtn.setBackground(!buying ? round(GREEN, 20) : round(WHITE, 20));
         sellBtn.setTextColor(!buying ? WHITE : GREY);
     }
 
     void showCalculator() {
         current = "calculator";
         LinearLayout c = col();
-        topBar(c, "Property Tax Checker", new View.OnClickListener() {
-            public void onClick(View v) { showHome(); }
-        }, R.drawable.lucide_calculator, null);
-        c.addView(tv("Calculate Your Tax", 22, TEXT, true));
-        c.addView(tv("Select transaction type and enter property details to get an estimate.", 14, GREY, false));
+        LinearLayout head = new LinearLayout(this);
+        head.setOrientation(LinearLayout.HORIZONTAL);
+        head.setGravity(Gravity.CENTER_VERTICAL);
+        ImageView logo = new ImageView(this);
+        logo.setImageResource(R.drawable.logo_asset);
+        logo.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        logo.setLayoutParams(new LinearLayout.LayoutParams(dp(48), dp(56)));
+        head.addView(logo);
+        LinearLayout ht = new LinearLayout(this); ht.setOrientation(LinearLayout.VERTICAL);
+        ht.setPadding(dp(10), 0, 0, 0);
+        ht.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        ht.addView(tv("Property Tax", 21, TEXT, true));
+        ht.addView(tv("Checker", 16, GREY, false));
+        head.addView(ht);
+        LinearLayout prof = new LinearLayout(this);
+        GradientDrawable pg = new GradientDrawable();
+        pg.setShape(GradientDrawable.OVAL);
+        pg.setColor(SOFT);
+        prof.setBackground(pg);
+        prof.setLayoutParams(new LinearLayout.LayoutParams(dp(48), dp(48)));
+        prof.setGravity(Gravity.CENTER);
+        prof.addView(iconImg(R.drawable.lucide_user_filled, GREEN, 24));
+        head.addView(prof);
+        c.addView(head); space(c, 12);
+        c.addView(tv("Calculate Your Tax", 28, TEXT, true));
+        c.addView(tv("Select transaction type and enter property details to get an estimate.", 15, GREY, false));
         space(c, 14);
+        LinearLayout banner = new LinearLayout(this);
+        banner.setOrientation(LinearLayout.HORIZONTAL);
+        banner.setGravity(Gravity.CENTER_VERTICAL);
+        banner.setBackground(round(LIGHT, 20)); banner.setPadding(dp(16), dp(16), dp(16), dp(16));
+        LinearLayout.LayoutParams bp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        bp.bottomMargin = dp(16); banner.setLayoutParams(bp);
+        LinearLayout bt = new LinearLayout(this); bt.setOrientation(LinearLayout.VERTICAL);
+        bt.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        TextView chip = tv("TAX CALCULATION", 11, SECONDARY, true);
+        chip.setBackground(round(SOFT, 8)); chip.setPadding(dp(10), dp(4), dp(10), dp(4));
+        bt.addView(chip); space(bt, 8);
+        bt.addView(tv("Know Your\nProperty Tax", 22, TEXT, true));
+        banner.addView(bt);
+        ImageView bi = new ImageView(this);
+        bi.setImageResource(R.drawable.calc_banner);
+        bi.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        bi.setLayoutParams(new LinearLayout.LayoutParams(dp(170), dp(104)));
+        banner.addView(bi);
+        c.addView(banner);
         LinearLayout toggle = new LinearLayout(this); toggle.setOrientation(LinearLayout.HORIZONTAL);
-        toggle.setBackground(round(WHITE, 16)); toggle.setPadding(dp(4), dp(4), dp(4), dp(4));
+        toggle.setBackground(round(WHITE, 24)); toggle.setPadding(dp(4), dp(4), dp(4), dp(4));
         buyBtn = new Button(this); buyBtn.setText("Buying"); buyBtn.setAllCaps(false);
         buyBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         buyBtn.setTypeface(poppins(true));
@@ -593,6 +634,7 @@ public class MainActivity extends Activity {
         sellBtn.setTypeface(poppins(true));
         buyBtn.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         sellBtn.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        buyBtn.setMinHeight(dp(48)); sellBtn.setMinHeight(dp(48));
         buyBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { buying = true; updateToggle(); }
         });
@@ -605,12 +647,14 @@ public class MainActivity extends Activity {
         final EditText valueEt = new EditText(this); valueEt.setTypeface(poppins(false));
         valueEt.setHint("Enter property value  e.g. 10,000,000");
         valueEt.setInputType(InputType.TYPE_CLASS_NUMBER);
-        valueEt.setBackground(inputBg()); valueEt.setPadding(dp(14), dp(14), dp(14), dp(14));
+        GradientDrawable vb = new GradientDrawable();
+        vb.setColor(WHITE); vb.setCornerRadius(dp(16)); vb.setStroke(dp(1), BORDER);
+        valueEt.setBackground(vb); valueEt.setPadding(dp(14), dp(14), dp(14), dp(14));
         c.addView(valueEt); space(c, 16);
         fieldLabel(c, R.drawable.lucide_user, "Taxpayer Status");
         RadioGroup rg = new RadioGroup(this);
-        RadioButton fr = new RadioButton(this); fr.setTypeface(poppins(false)); fr.setText("Filer (Active Taxpayer List)"); fr.setId(1001);
-        RadioButton nf = new RadioButton(this); nf.setTypeface(poppins(false)); nf.setText("Non-Filer (Not on ATL)"); nf.setId(1002);
+        RadioButton fr = new RadioButton(this); fr.setTypeface(poppins(false)); fr.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16); fr.setTextColor(TEXT); fr.setButtonTintList(new android.content.res.ColorStateList(new int[][]{{android.R.attr.state_checked},{}}, new int[]{GREEN, GREY})); fr.setText("Filer (Active Taxpayer List)"); fr.setId(1001);
+        RadioButton nf = new RadioButton(this); nf.setTypeface(poppins(false)); nf.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16); nf.setTextColor(TEXT); nf.setButtonTintList(new android.content.res.ColorStateList(new int[][]{{android.R.attr.state_checked},{}}, new int[]{GREEN, GREY})); nf.setText("Non-Filer (Not on ATL)"); nf.setId(1002);
         rg.addView(fr); rg.addView(nf);
         rg.check(filer ? 1001 : 1002);
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -796,7 +840,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) { if (ratesBack.equals("settings")) showSettings(); else showHome(); }
         }, 0, null);
         LinearLayout toggle = new LinearLayout(this); toggle.setOrientation(LinearLayout.HORIZONTAL);
-        toggle.setBackground(round(WHITE, 16)); toggle.setPadding(dp(4), dp(4), dp(4), dp(4));
+        toggle.setBackground(round(WHITE, 24)); toggle.setPadding(dp(4), dp(4), dp(4), dp(4));
         final Button tb = new Button(this); tb.setText("Buying"); tb.setAllCaps(false);
         tb.setTypeface(poppins(true));
         tb.setBackground(round(GREEN, 12)); tb.setTextColor(WHITE);

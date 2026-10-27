@@ -230,3 +230,24 @@ Home rebuilt from the user's asset sheet + blue homepage reference:
   aur APK dex dono me wo text maujood nahi hai (v1.7.1 dex me 1 dafa
   tha, v1.7.2 dex me 0). Tax Rates screen, FAQs aur baqi screens
   unchanged — sirf Home ka info strip hata hai.
+
+## v1.7.3 — Calculator page rebuilt from reference (100% like design, Home header)
+- Calculator screen rebuilt from user's reference image (2026-10-27):
+  Home header (logo + Property Tax/Checker + profile circle) INSTEAD of
+  the reference's back-arrow + title + calculator-icon top bar, per user
+  order — that top bar is gone, navigation is via bottom nav like Home.
+- Title "Calculate Your Tax" 28sp + subtext 15sp; new banner card
+  (LIGHT, radius 20): chip "TAX CALCULATION" (SOFT pill, Secondary bold
+  11sp) + "Know Your Property Tax" 22sp + illustration on the right.
+- Illustration: cropped from the reference screenshot itself (house +
+  blue calculator + TAX paper + gold coins + bushes, 449x257, corners
+  flood-filled transparent like hero_banner, saved as
+  res/drawable-nodpi/calc_banner.webp, 12,284 bytes). Honest limit: it
+  is a crop, not a separate transparent asset — if the user sends the
+  original illustration, it swaps 1:1.
+- Toggle now a true pill: container radius 24, buttons radius 20,
+  48dp min height, selected Primary / unselected grey. Field labels
+  16sp with 24dp icons; Property Value input radius 16; radios 16sp
+  with Primary tint when checked / grey ring when not; Calculate Tax
+  button unchanged pill (already matched). Bottom nav Calculator
+  selected unchanged. Calculation + tests unchanged (15/15).
