@@ -269,3 +269,25 @@ Home rebuilt from the user's asset sheet + blue homepage reference:
   entries work too — both rates are computed from buying + value on
   display, so no history format change and no old data lost. FAQ
   updated: no selection needed, result shows both.
+
+## v1.7.5 — Single result, Non-Filer in red, blinking filer tip
+- Result confusion fixed (user feedback): the separate "Calculation
+  Breakdown" card is REMOVED — it repeated the same Filer/Non-Filer
+  numbers as the blue card above it. Result is now ONE single card:
+  Property Value + Filer (rate + tax) + Non-Filer (rate + tax) +
+  Section + Transaction. Nothing repeated anywhere on the screen.
+- Non-Filer highlighted in RED everywhere both are shown: Result blue
+  card Non-Filer column (light red #FF8A80 on dark blue), Details
+  green card Non-Filer line (light red) + Non-Filer Rate row value
+  (dark red #D32F2F on white), History Non-Filer line (dark red).
+  Filer stays white/green as before. Share text is plain text, so it
+  has no colours.
+- Blinking filer banner on Result (gold-bordered light card, below
+  the result card): "Want to pay less tax? Become a filer today and
+  save — filers pay much lower FBR rates than non-filers. Contact us
+  now to find out how to join the Active Taxpayer List (ATL)." Text
+  blinks (alpha 1.0 <-> 0.4, 800ms) so it stays readable. Tap opens
+  Settings, where the Contact Us row lives — no phone number or
+  email was invented; Contact Us points to the developer contact on
+  the Play Store listing, as before. Details link text updated from
+  "View Calculation Breakdown" to "View Result".

@@ -53,6 +53,8 @@ public class MainActivity extends Activity {
     static final int GREY = 0xFF536B8E; // Secondary Text
     static final int TEXT = 0xFF18365F; // Primary Text
     static final int WHITE = 0xFFFFFFFF;
+    static final int RED = 0xFFD32F2F;
+    static final int LIGHTRED = 0xFFFF8A80;
 
 
     boolean buying = true;
@@ -307,6 +309,15 @@ public class MainActivity extends Activity {
                 ViewGroup.LayoutParams.MATCH_PARENT, 0, 1));
         if (navSelected != null) root.addView(bottomNav(navSelected));
         return root;
+    }
+
+    void rowC(LinearLayout parent, String label, String value, int valueColor) {
+        LinearLayout r = new LinearLayout(this);
+        r.setOrientation(LinearLayout.HORIZONTAL);
+        TextView l = tv(label, 14, GREY, false);
+        l.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        TextView v = tv(value, 14, valueColor, true);
+        r.addView(l); r.addView(v); parent.addView(r); space(parent, 6);
     }
 
     void row(LinearLayout parent, String label, String value) {
@@ -691,15 +702,18 @@ public class MainActivity extends Activity {
         TextView et = tv("Estimated FBR Advance Tax", 14, WHITE, true);
         et.setPadding(dp(10), 0, 0, 0); chk.addView(et);
         green.addView(chk); space(green, 12);
+        green.addView(tv("Property Value", 12, WHITE, false));
+        green.addView(tv(TaxCalc.formatPkr(calc.value), 16, WHITE, true));
+        space(green, 12);
         LinearLayout dual = new LinearLayout(this); dual.setOrientation(LinearLayout.HORIZONTAL);
         LinearLayout df = new LinearLayout(this); df.setOrientation(LinearLayout.VERTICAL);
         df.addView(tv("Filer", 12, WHITE, false));
         df.addView(tv(TaxCalc.formatPkr(calc.taxFiler()), 22, WHITE, true));
         df.addView(tv("Rate " + TaxCalc.formatRate(calc.rateFiler()) + "%", 13, WHITE, false));
         LinearLayout dn = new LinearLayout(this); dn.setOrientation(LinearLayout.VERTICAL);
-        dn.addView(tv("Non-Filer", 12, WHITE, false));
-        dn.addView(tv(TaxCalc.formatPkr(calc.taxNonFiler()), 22, WHITE, true));
-        dn.addView(tv("Rate " + TaxCalc.formatRate(calc.rateNonFiler()) + "%", 13, WHITE, false));
+        dn.addView(tv("Non-Filer", 12, LIGHTRED, false));
+        dn.addView(tv(TaxCalc.formatPkr(calc.taxNonFiler()), 22, LIGHTRED, true));
+        dn.addView(tv("Rate " + TaxCalc.formatRate(calc.rateNonFiler()) + "%", 13, LIGHTRED, false));
         dual.addView(df, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         dual.addView(dn, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         green.addView(dual); space(green, 12);
@@ -717,13 +731,24 @@ public class MainActivity extends Activity {
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         gp.bottomMargin = dp(12); green.setLayoutParams(gp);
         c.addView(green);
-        LinearLayout bd = card(c);
-        bd.addView(tv("Calculation Breakdown", 16, TEXT, true)); space(bd, 8);
-        row(bd, "Property Value", TaxCalc.formatPkr(calc.value));
-        row(bd, "Filer Rate", TaxCalc.formatRate(calc.rateFiler()) + "%");
-        row(bd, "Filer Tax", TaxCalc.formatPkr(calc.taxFiler()));
-        row(bd, "Non-Filer Rate", TaxCalc.formatRate(calc.rateNonFiler()) + "%");
-        row(bd, "Non-Filer Tax", TaxCalc.formatPkr(calc.taxNonFiler()));
+        LinearLayout filerTip = new LinearLayout(this);
+        GradientDrawable tg = new GradientDrawable();
+        tg.setColor(0xFFFFF8E1); tg.setCornerRadius(dp(16)); tg.setStroke(dp(1), GOLD);
+        filerTip.setBackground(tg); filerTip.setPadding(dp(16), dp(14), dp(16), dp(14));
+        LinearLayout.LayoutParams tp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        tp.bottomMargin = dp(12); filerTip.setLayoutParams(tp);
+        TextView tip = tv("\uD83D\uDCA1 Want to pay less tax? Become a filer today and save \u2014 filers pay much lower FBR rates than non-filers. Contact us now to find out how to join the Active Taxpayer List (ATL).", 14, TEXT, false);
+        android.view.animation.AlphaAnimation blink = new android.view.animation.AlphaAnimation(1.0f, 0.4f);
+        blink.setDuration(800);
+        blink.setRepeatMode(android.view.animation.Animation.REVERSE);
+        blink.setRepeatCount(android.view.animation.Animation.INFINITE);
+        tip.startAnimation(blink);
+        filerTip.addView(tip);
+        filerTip.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) { showSettings(); }
+        });
+        c.addView(filerTip);
         LinearLayout note = card(c);
         note.setBackground(round(LIGHT, 20));
         note.addView(tv("ⓘ  This is an FBR advance tax estimate. Provincial duties, stamp duty, registration fees and other charges are not included.", 13, GREY, false));
@@ -755,19 +780,19 @@ public class MainActivity extends Activity {
         LinearLayout det = card(c);
         row(det, "Property Value", TaxCalc.formatPkr(calc.value));
         row(det, "Filer Rate", TaxCalc.formatRate(calc.rateFiler()) + "%");
-        row(det, "Non-Filer Rate", TaxCalc.formatRate(calc.rateNonFiler()) + "%");
+        rowC(det, "Non-Filer Rate", TaxCalc.formatRate(calc.rateNonFiler()) + "%", RED);
         row(det, "FBR Section", calc.section());
         LinearLayout green = new LinearLayout(this);
         green.setOrientation(LinearLayout.VERTICAL);
         green.setBackground(round(GREEN, 20)); green.setPadding(dp(20), dp(20), dp(20), dp(20));
         green.addView(tv("Estimated FBR Advance Tax", 13, WHITE, false));
         green.addView(tv("Filer: " + TaxCalc.formatPkr(calc.taxFiler()) + " (" + TaxCalc.formatRate(calc.rateFiler()) + "%)", 20, WHITE, true));
-        green.addView(tv("Non-Filer: " + TaxCalc.formatPkr(calc.taxNonFiler()) + " (" + TaxCalc.formatRate(calc.rateNonFiler()) + "%)", 20, WHITE, true));
+        green.addView(tv("Non-Filer: " + TaxCalc.formatPkr(calc.taxNonFiler()) + " (" + TaxCalc.formatRate(calc.rateNonFiler()) + "%)", 20, LIGHTRED, true));
         LinearLayout.LayoutParams gp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         gp.bottomMargin = dp(12); green.setLayoutParams(gp);
         c.addView(green);
-        TextView link = tv("View Calculation Breakdown  ›", 14, GREEN, true);
+        TextView link = tv("View Result  ›", 14, GREEN, true);
         link.setPadding(0, dp(4), 0, dp(12));
         link.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { showResult(calc); }
@@ -820,7 +845,7 @@ public class MainActivity extends Activity {
             mid.addView(tv(calc.txn(), 15, TEXT, true));
             mid.addView(tv(TaxCalc.formatPkr(calc.value), 14, TEXT, false));
             mid.addView(tv("Filer: " + TaxCalc.formatPkr(calc.taxFiler()) + " (" + TaxCalc.formatRate(calc.rateFiler()) + "%)", 14, GREEN, true));
-            mid.addView(tv("Non-Filer: " + TaxCalc.formatPkr(calc.taxNonFiler()) + " (" + TaxCalc.formatRate(calc.rateNonFiler()) + "%)", 14, GREEN, true));
+            mid.addView(tv("Non-Filer: " + TaxCalc.formatPkr(calc.taxNonFiler()) + " (" + TaxCalc.formatRate(calc.rateNonFiler()) + "%)", 14, RED, true));
             mid.addView(tv(dateStr(calc.time), 12, GREY, false));
             hr.addView(mid);
             hr.addView(tv("›", 26, GREY, false));
