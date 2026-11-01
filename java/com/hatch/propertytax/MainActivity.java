@@ -723,25 +723,19 @@ public class MainActivity extends Activity {
         space(green, 12);
         LinearLayout dual = new LinearLayout(this); dual.setOrientation(LinearLayout.HORIZONTAL);
         LinearLayout df = new LinearLayout(this); df.setOrientation(LinearLayout.VERTICAL);
-        df.setBackground(round(WHITE, 16)); df.setPadding(dp(8), dp(12), dp(8), dp(12));
         df.setGravity(Gravity.CENTER_HORIZONTAL);
-        TextView dfT = tv("FILER", 13, TEXT, true); dfT.setGravity(Gravity.CENTER); df.addView(dfT);
-        TextView dfA = tv(TaxCalc.formatPkr(calc.taxFiler()), 20, TEXT, true); dfA.setGravity(Gravity.CENTER); df.addView(dfA);
-        TextView dfR = tv("Rate " + TaxCalc.formatRate(calc.rateFiler()) + "%", 13, GREY, false); dfR.setGravity(Gravity.CENTER); df.addView(dfR);
+        TextView dfT = tv("Filer", 12, WHITE, false); dfT.setGravity(Gravity.CENTER); df.addView(dfT);
+        TextView dfA = tv(TaxCalc.formatPkr(calc.taxFiler()), 22, WHITE, true); dfA.setGravity(Gravity.CENTER); df.addView(dfA);
+        TextView dfR = tv("Rate " + TaxCalc.formatRate(calc.rateFiler()) + "%", 13, WHITE, false); dfR.setGravity(Gravity.CENTER); df.addView(dfR);
         LinearLayout dn = new LinearLayout(this); dn.setOrientation(LinearLayout.VERTICAL);
-        GradientDrawable nr = new GradientDrawable();
-        nr.setColor(0xFFFFE0E0); nr.setCornerRadius(dp(16));
-        dn.setBackground(nr); dn.setPadding(dp(8), dp(12), dp(8), dp(12));
         dn.setGravity(Gravity.CENTER_HORIZONTAL);
-        TextView dnT = tv("NON-FILER", 13, RED, true); dnT.setGravity(Gravity.CENTER); dn.addView(dnT);
-        TextView dnA = tv(TaxCalc.formatPkr(calc.taxNonFiler()), 20, RED, true); dnA.setGravity(Gravity.CENTER); dn.addView(dnA);
-        TextView dnR = tv("Rate " + TaxCalc.formatRate(calc.rateNonFiler()) + "%", 13, RED, false); dnR.setGravity(Gravity.CENTER); dn.addView(dnR);
-        dual.addView(df, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1));
-        LinearLayout dsp = new LinearLayout(this);
-        dsp.setLayoutParams(new LinearLayout.LayoutParams(dp(12), 1));
-        dual.addView(dsp);
-        dual.addView(dn, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1));
-        green.addView(dual);
+        TextView dnT = tv("Non-Filer", 12, LIGHTRED, false); dnT.setGravity(Gravity.CENTER); dn.addView(dnT);
+        TextView dnA = tv(TaxCalc.formatPkr(calc.taxNonFiler()), 22, LIGHTRED, true); dnA.setGravity(Gravity.CENTER); dn.addView(dnA);
+        TextView dnR = tv("Rate " + TaxCalc.formatRate(calc.rateNonFiler()) + "%", 13, LIGHTRED, false); dnR.setGravity(Gravity.CENTER); dn.addView(dnR);
+        dual.addView(df, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        dual.addView(dn, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        green.addView(dual, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         LinearLayout.LayoutParams gp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         gp.bottomMargin = dp(12); green.setLayoutParams(gp);

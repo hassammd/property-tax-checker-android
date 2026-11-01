@@ -343,3 +343,20 @@ Home rebuilt from the user's asset sheet + blue homepage reference:
   Screenshot numbers verified: Buying PKR 2,509,639 -> Filer
   PKR 31,370 (1.25%), Non-Filer PKR 263,512 (10.5%) — correct.
   Calculation/rates unchanged, tests 15/15.
+
+## v1.7.9 — BUG FIX: Result Filer/Non-Filer text invisible in v1.7.8 (reverted to proven columns, centred)
+- v1.7.8 BUG (user screenshot 2026-11-01 13:06): the Filer/Non-Filer
+  banner boxes collapsed to a thin line and their text did not
+  render at all — the blue card showed heading + Property Value
+  only, with an empty area below. Root cause: the banner columns
+  used width 0 + weight inside a WRAP_CONTENT row with MATCH_PARENT
+  height, so Android collapsed them instead of laying them out.
+- FIX: banners removed entirely. Back to the v1.7.7 plain columns
+  that rendered correctly, now with the user's requested centring:
+  the dual row is MATCH_PARENT wide (so weight 1 + weight 1 gives
+  each column exactly half the card, with equal spaces on both
+  sides), each column's text is centred (label, amount, rate all
+  gravity CENTER), Filer white, Non-Filer light red as before.
+  Heading and Property Value stay centred. No banner boxes, no
+  spacer, no MATCH_PARENT column height.
+- Calculation/rates unchanged, tests 15/15.
