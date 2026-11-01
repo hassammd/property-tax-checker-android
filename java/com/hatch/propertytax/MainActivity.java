@@ -703,15 +703,23 @@ public class MainActivity extends Activity {
         green.setOrientation(LinearLayout.VERTICAL);
         green.setBackground(round(GREEN, 20)); green.setElevation(dp(2)); green.setPadding(dp(20), dp(20), dp(20), dp(20));
         LinearLayout chk = new LinearLayout(this); chk.setOrientation(LinearLayout.HORIZONTAL);
-        chk.setGravity(Gravity.CENTER_VERTICAL);
+        chk.setGravity(Gravity.CENTER);
+        chk.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         TextView ck = tv("✓", 18, GREEN, true);
         ck.setBackground(round(WHITE, 20)); ck.setPadding(dp(10), dp(6), dp(10), dp(6));
         chk.addView(ck);
-        TextView et = tv("Estimated FBR Advance Tax", 14, WHITE, true);
+        TextView et = tv(calc.buying ? "FBR Tax On Purchase" : "FBR Tax On Sale", 16, WHITE, true);
         et.setPadding(dp(10), 0, 0, 0); chk.addView(et);
         green.addView(chk); space(green, 12);
-        green.addView(tv("Property Value", 12, WHITE, false));
-        green.addView(tv(TaxCalc.formatPkr(calc.value), 16, WHITE, true));
+        TextView pvL = tv("Property Value", 12, WHITE, false);
+        pvL.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        pvL.setGravity(Gravity.CENTER); green.addView(pvL);
+        TextView pvA = tv(TaxCalc.formatPkr(calc.value), 20, WHITE, true);
+        pvA.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        pvA.setGravity(Gravity.CENTER); green.addView(pvA);
         space(green, 12);
         LinearLayout dual = new LinearLayout(this); dual.setOrientation(LinearLayout.HORIZONTAL);
         LinearLayout df = new LinearLayout(this); df.setOrientation(LinearLayout.VERTICAL);
@@ -724,17 +732,7 @@ public class MainActivity extends Activity {
         dn.addView(tv("Rate " + TaxCalc.formatRate(calc.rateNonFiler()) + "%", 13, LIGHTRED, false));
         dual.addView(df, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         dual.addView(dn, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-        green.addView(dual); space(green, 12);
-        LinearLayout rr = new LinearLayout(this); rr.setOrientation(LinearLayout.HORIZONTAL);
-        LinearLayout a1 = new LinearLayout(this); a1.setOrientation(LinearLayout.VERTICAL);
-        a1.addView(tv("Section", 12, WHITE, false));
-        a1.addView(tv(calc.section(), 16, WHITE, true));
-        LinearLayout a2 = new LinearLayout(this); a2.setOrientation(LinearLayout.VERTICAL);
-        a2.addView(tv("Transaction", 12, WHITE, false));
-        a2.addView(tv(calc.txnLong(), 16, WHITE, true));
-        rr.addView(a1, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-        rr.addView(a2, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-        green.addView(rr);
+        green.addView(dual);
         LinearLayout.LayoutParams gp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         gp.bottomMargin = dp(12); green.setLayoutParams(gp);

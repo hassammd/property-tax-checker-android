@@ -310,3 +310,20 @@ Home rebuilt from the user's asset sheet + blue homepage reference:
     left-aligned text.
 - Calculation, rates, dual-tax result, red Non-Filer, blinking tip
   all unchanged. Tests 15/15.
+
+## v1.7.7 — Result card layout as specified (heading / centred value / Filer left / Non-Filer right)
+- Result blue card redesigned in the exact order user specified:
+  top heading -> Property Value centred -> Filer (left) / Non-Filer
+  (right), each with rate + tax. Non-Filer stays light red.
+- Heading is dynamic by transaction (user said "FBR Tax On
+  Purchase", but the screenshot was a Selling calculation, where a
+  static "Purchase" heading would be wrong): Buying -> "FBR Tax On
+  Purchase", Selling -> "FBR Tax On Sale". Heading row (checkmark +
+  text) is centred, 16sp.
+- Property Value is centred in the card: label 12sp + amount 20sp
+  bold, both full-width centred (was left-aligned 16sp).
+- Section + Transaction rows removed from the Result card — the
+  heading now names the transaction (Purchase/Sale), so those rows
+  were redundant. Section still appears in Details and in Share text.
+  Blinking filer banner, note card, Save/Share button, bottom nav
+  unchanged. Calculation/rates unchanged, tests 15/15.
