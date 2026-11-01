@@ -206,7 +206,7 @@ public class MainActivity extends Activity {
         b.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         b.setTypeface(poppins(true));
         b.setTextColor(WHITE); b.setBackground(round(GREEN, 28));
-        b.setMinHeight(dp(52));
+        b.setMinHeight(dp(56)); b.setElevation(dp(2));
         b.setPadding(dp(16), dp(14), dp(16), dp(14));
         b.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -222,7 +222,7 @@ public class MainActivity extends Activity {
         GradientDrawable d = new GradientDrawable();
         d.setColor(WHITE); d.setCornerRadius(dp(28)); d.setStroke(dp(1), GREEN);
         b.setBackground(d);
-        b.setMinHeight(dp(52));
+        b.setMinHeight(dp(56)); b.setElevation(dp(1));
         b.setPadding(dp(16), dp(14), dp(16), dp(14));
         b.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -256,8 +256,8 @@ public class MainActivity extends Activity {
     LinearLayout bottomNav(String selected) {
         LinearLayout nav = new LinearLayout(this);
         nav.setOrientation(LinearLayout.HORIZONTAL);
-        nav.setBackgroundColor(WHITE);
-        nav.setPadding(dp(4), dp(8), dp(4), dp(8));
+        nav.setBackgroundColor(WHITE); nav.setElevation(dp(4));
+        nav.setPadding(dp(4), dp(10), dp(4), dp(10));
         String[] items = {"Home", "Calculator", "History", "Settings"};
         int[] icons = {R.drawable.lucide_house, R.drawable.lucide_calculator, R.drawable.lucide_history, R.drawable.lucide_settings};
         for (int i = 0; i < items.length; i++) {
@@ -419,12 +419,12 @@ public class MainActivity extends Activity {
         LinearLayout chips = new LinearLayout(this);
         chips.setOrientation(LinearLayout.HORIZONTAL);
         LinearLayout ch1 = new LinearLayout(this); ch1.setOrientation(LinearLayout.VERTICAL);
-        ch1.setBackground(round(WHITE, 16)); ch1.setPadding(dp(16), dp(12), dp(16), dp(12));
+        ch1.setBackground(round(WHITE, 16)); ch1.setElevation(dp(2)); ch1.setPadding(dp(16), dp(12), dp(16), dp(12));
         ch1.setGravity(Gravity.CENTER);
         ch1.addView(iconImg(R.drawable.lucide_shield_check, GREEN, 22));
         ch1.addView(tv("FBR Rates\n& Rules", 13, TEXT, true));
         LinearLayout ch2 = new LinearLayout(this); ch2.setOrientation(LinearLayout.VERTICAL);
-        ch2.setBackground(round(WHITE, 16)); ch2.setPadding(dp(16), dp(12), dp(16), dp(12));
+        ch2.setBackground(round(WHITE, 16)); ch2.setElevation(dp(2)); ch2.setPadding(dp(16), dp(12), dp(16), dp(12));
         ch2.setGravity(Gravity.CENTER);
         ch2.addView(iconImg(R.drawable.lucide_zap, GREEN, 22));
         ch2.addView(tv("Quick\n& Accurate", 13, TEXT, true));
@@ -494,7 +494,7 @@ public class MainActivity extends Activity {
         c.addView(head); space(c, 12);
         LinearLayout hero = new LinearLayout(this);
         hero.setOrientation(LinearLayout.VERTICAL);
-        hero.setBackground(round(LIGHT, 20)); hero.setPadding(dp(16), dp(16), dp(16), dp(16));
+        hero.setBackground(round(LIGHT, 20)); hero.setElevation(dp(2)); hero.setPadding(dp(16), dp(16), dp(16), dp(16));
         LinearLayout.LayoutParams hp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         hp.bottomMargin = dp(8); hero.setLayoutParams(hp);
@@ -531,7 +531,7 @@ public class MainActivity extends Activity {
         c.addView(tv("Quick Actions", 19, TEXT, true)); space(c, 8);
         LinearLayout r1 = new LinearLayout(this); r1.setOrientation(LinearLayout.HORIZONTAL);
         LinearLayout qa1 = new LinearLayout(this); qa1.setOrientation(LinearLayout.VERTICAL);
-        qa1.setBackground(inputBg()); qa1.setPadding(dp(12), dp(12), dp(12), dp(12));
+        qa1.setBackground(inputBg()); qa1.setElevation(dp(2)); qa1.setPadding(dp(12), dp(12), dp(12), dp(12));
         qa1.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         qa1.addView(iconBoxImg(R.drawable.lucide_file_text));
         space(qa1, 6);
@@ -545,7 +545,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) { ratesBack = "home"; showRates(); }
         });
         LinearLayout qa2 = new LinearLayout(this); qa2.setOrientation(LinearLayout.VERTICAL);
-        qa2.setBackground(inputBg()); qa2.setPadding(dp(12), dp(12), dp(12), dp(12));
+        qa2.setBackground(inputBg()); qa2.setElevation(dp(2)); qa2.setPadding(dp(12), dp(12), dp(12), dp(12));
         qa2.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         qa2.addView(iconBoxImg(R.drawable.lucide_history));
         space(qa2, 6);
@@ -622,7 +622,7 @@ public class MainActivity extends Activity {
         LinearLayout banner = new LinearLayout(this);
         banner.setOrientation(LinearLayout.HORIZONTAL);
         banner.setGravity(Gravity.CENTER_VERTICAL);
-        banner.setBackground(round(LIGHT, 20)); banner.setPadding(dp(16), dp(16), dp(16), dp(16));
+        banner.setBackground(round(LIGHT, 20)); banner.setElevation(dp(2)); banner.setPadding(dp(16), dp(16), dp(16), dp(16));
         LinearLayout.LayoutParams bp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         bp.bottomMargin = dp(16); banner.setLayoutParams(bp);
@@ -640,7 +640,7 @@ public class MainActivity extends Activity {
         banner.addView(bi);
         c.addView(banner);
         LinearLayout toggle = new LinearLayout(this); toggle.setOrientation(LinearLayout.HORIZONTAL);
-        toggle.setBackground(round(WHITE, 24)); toggle.setPadding(dp(4), dp(4), dp(4), dp(4));
+        toggle.setBackground(round(WHITE, 24)); toggle.setElevation(dp(2)); toggle.setPadding(dp(4), dp(4), dp(4), dp(4));
         buyBtn = new Button(this); buyBtn.setText("Buying"); buyBtn.setAllCaps(false);
         buyBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         buyBtn.setTypeface(poppins(true));
@@ -665,6 +665,14 @@ public class MainActivity extends Activity {
         GradientDrawable vb = new GradientDrawable();
         vb.setColor(WHITE); vb.setCornerRadius(dp(16)); vb.setStroke(dp(1), BORDER);
         valueEt.setBackground(vb); valueEt.setPadding(dp(14), dp(14), dp(14), dp(14));
+        valueEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                GradientDrawable d = new GradientDrawable();
+                d.setColor(WHITE); d.setCornerRadius(dp(16));
+                d.setStroke(dp(hasFocus ? 2 : 1), hasFocus ? ACCENT : BORDER);
+                valueEt.setBackground(d);
+            }
+        });
         c.addView(valueEt); space(c, 12);
         c.addView(greenBtn("Calculate Tax", new View.OnClickListener() {
             public void onClick(View v) {
@@ -693,7 +701,7 @@ public class MainActivity extends Activity {
         });
         LinearLayout green = new LinearLayout(this);
         green.setOrientation(LinearLayout.VERTICAL);
-        green.setBackground(round(GREEN, 20)); green.setPadding(dp(20), dp(20), dp(20), dp(20));
+        green.setBackground(round(GREEN, 20)); green.setElevation(dp(2)); green.setPadding(dp(20), dp(20), dp(20), dp(20));
         LinearLayout chk = new LinearLayout(this); chk.setOrientation(LinearLayout.HORIZONTAL);
         chk.setGravity(Gravity.CENTER_VERTICAL);
         TextView ck = tv("✓", 18, GREEN, true);
@@ -734,7 +742,7 @@ public class MainActivity extends Activity {
         LinearLayout filerTip = new LinearLayout(this);
         GradientDrawable tg = new GradientDrawable();
         tg.setColor(0xFFFFF8E1); tg.setCornerRadius(dp(16)); tg.setStroke(dp(1), GOLD);
-        filerTip.setBackground(tg); filerTip.setPadding(dp(16), dp(14), dp(16), dp(14));
+        filerTip.setBackground(tg); filerTip.setElevation(dp(2)); filerTip.setPadding(dp(16), dp(14), dp(16), dp(14));
         LinearLayout.LayoutParams tp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         tp.bottomMargin = dp(12); filerTip.setLayoutParams(tp);
@@ -784,7 +792,7 @@ public class MainActivity extends Activity {
         row(det, "FBR Section", calc.section());
         LinearLayout green = new LinearLayout(this);
         green.setOrientation(LinearLayout.VERTICAL);
-        green.setBackground(round(GREEN, 20)); green.setPadding(dp(20), dp(20), dp(20), dp(20));
+        green.setBackground(round(GREEN, 20)); green.setElevation(dp(2)); green.setPadding(dp(20), dp(20), dp(20), dp(20));
         green.addView(tv("Estimated FBR Advance Tax", 13, WHITE, false));
         green.addView(tv("Filer: " + TaxCalc.formatPkr(calc.taxFiler()) + " (" + TaxCalc.formatRate(calc.rateFiler()) + "%)", 20, WHITE, true));
         green.addView(tv("Non-Filer: " + TaxCalc.formatPkr(calc.taxNonFiler()) + " (" + TaxCalc.formatRate(calc.rateNonFiler()) + "%)", 20, LIGHTRED, true));
@@ -831,8 +839,10 @@ public class MainActivity extends Activity {
         List<Calc> list = loadHistory();
         if (list.isEmpty()) {
             LinearLayout e = card(c);
-            e.addView(tv("No calculations yet.", 16, TEXT, true));
-            e.addView(tv("Calculate your first property tax from the Calculator tab.", 14, GREY, false));
+            e.setGravity(Gravity.CENTER_HORIZONTAL);
+            e.addView(iconBoxImg(R.drawable.lucide_history)); space(e, 8);
+            TextView et1 = tv("No calculations yet.", 16, TEXT, true); et1.setGravity(Gravity.CENTER); e.addView(et1);
+            TextView et2 = tv("Calculate your first property tax from the Calculator tab.", 14, GREY, false); et2.setGravity(Gravity.CENTER); e.addView(et2);
         }
         for (final Calc calc : list) {
             LinearLayout item = card(c);
@@ -872,7 +882,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) { if (ratesBack.equals("settings")) showSettings(); else showHome(); }
         }, 0, null);
         LinearLayout toggle = new LinearLayout(this); toggle.setOrientation(LinearLayout.HORIZONTAL);
-        toggle.setBackground(round(WHITE, 24)); toggle.setPadding(dp(4), dp(4), dp(4), dp(4));
+        toggle.setBackground(round(WHITE, 24)); toggle.setElevation(dp(2)); toggle.setPadding(dp(4), dp(4), dp(4), dp(4));
         final Button tb = new Button(this); tb.setText("Buying"); tb.setAllCaps(false);
         tb.setTypeface(poppins(true));
         tb.setBackground(round(GREEN, 12)); tb.setTextColor(WHITE);

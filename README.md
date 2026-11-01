@@ -291,3 +291,22 @@ Home rebuilt from the user's asset sheet + blue homepage reference:
   email was invented; Contact Us points to the developer contact on
   the Play Store listing, as before. Details link text updated from
   "View Calculation Breakdown" to "View Result".
+
+## v1.7.6 — Interface polish (user-friendly + attractive, no redesign)
+- Deliberately NO layout, colour, font, text or flow change — Home and
+  Calculator stay exactly as user-approved. Polish only:
+  * Depth: elevation added to primary buttons (2dp), secondary
+    buttons (1dp), bottom nav (4dp, so it separates from content),
+    Home hero, Quick Actions cards, Calculator banner + toggle,
+    Result/Details green cards, filer tip banner, Welcome chips.
+    (Other cards already had 2dp elevation via card().)
+  * Touch targets: primary/secondary buttons 52dp -> 56dp height;
+    bottom nav padding 8dp -> 10dp top/bottom.
+  * Focus clarity: Property Value input gets an Accent-blue 2dp
+    border while typing, back to normal border otherwise — so the
+    user always sees which field is active.
+  * Friendlier empty state: History with no calculations now shows
+    a centered clock icon + centered texts instead of plain
+    left-aligned text.
+- Calculation, rates, dual-tax result, red Non-Filer, blinking tip
+  all unchanged. Tests 15/15.

@@ -54,6 +54,6 @@ echo "== verify APK =="
 "$BT/aapt2" dump badging build/final.apk | grep -E "package:|launchable-activity:|application-label:"
 
 mkdir -p "$OUTDIR"
-cp build/final.apk "$OUTDIR/property-tax-checker-v1.7.5.apk"
-ls -la "$OUTDIR/property-tax-checker-v1.7.5.apk"
+cp build/final.apk "$OUTDIR/property-tax-checker-v1.7.6.apk"
+ls -la "$OUTDIR/property-tax-checker-v1.7.6.apk"
 echo BUILD_OK
