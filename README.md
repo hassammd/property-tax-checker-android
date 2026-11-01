@@ -327,3 +327,19 @@ Home rebuilt from the user's asset sheet + blue homepage reference:
   were redundant. Section still appears in Details and in Share text.
   Blinking filer banner, note card, Save/Share button, bottom nav
   unchanged. Calculation/rates unchanged, tests 15/15.
+
+## v1.7.8 — Result Filer/Non-Filer as two centred banners
+- Result card: the two plain left/right columns are replaced by two
+  separate banners side by side, each with its text centred, to
+  differentiate them at a glance:
+  * FILER banner: white background, dark-blue "FILER" heading,
+    tax amount, "Rate x%" — all centred.
+  * NON-FILER banner: light-red background (#FFE0E0), dark-red
+    "NON-FILER" heading, tax amount, "Rate x%" — all centred, so
+    the higher non-filer cost stays highlighted in red as before.
+  Banners are equal height (MATCH_PARENT in the row) with a 12dp gap.
+- Heading (FBR Tax On Purchase/Sale), centred Property Value,
+  blinking filer banner, note card, Save/Share button unchanged.
+  Screenshot numbers verified: Buying PKR 2,509,639 -> Filer
+  PKR 31,370 (1.25%), Non-Filer PKR 263,512 (10.5%) — correct.
+  Calculation/rates unchanged, tests 15/15.
