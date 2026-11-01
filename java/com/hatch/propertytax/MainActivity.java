@@ -71,6 +71,10 @@ public class MainActivity extends Activity {
         String section() { return TaxCalc.section(buying); }
         String txn() { return buying ? "Buying" : "Selling"; }
         String txnLong() { return buying ? "Buying (Buyer)" : "Selling (Seller)"; }
+        double rateFiler() { return TaxCalc.rate(buying, true, value); }
+        double rateNonFiler() { return TaxCalc.rate(buying, false, value); }
+        long taxFiler() { return TaxCalc.tax(value, rateFiler()); }
+        long taxNonFiler() { return TaxCalc.tax(value, rateNonFiler()); }
         String toLine() {
             return time + "|" + (buying ? 1 : 0) + "|" + (filer ? 1 : 0)
                     + "|" + value + "|" + rate + "|" + tax;
@@ -357,8 +361,8 @@ public class MainActivity extends Activity {
     String shareText(Calc c) {
         return "Property Tax Checker\n" + c.txn() + "\n"
                 + "Property Value: " + TaxCalc.formatPkr(c.value) + "\n"
-                + "Applicable Rate: " + TaxCalc.formatRate(c.rate) + "% (Section " + c.section() + ")\n"
-                + "Estimated FBR Advance Tax: " + TaxCalc.formatPkr(c.tax) + "\n"
+                + "Filer: " + TaxCalc.formatRate(c.rateFiler()) + "% (Section " + c.section() + ") - Tax: " + TaxCalc.formatPkr(c.taxFiler()) + "\n"
+                + "Non-Filer: " + TaxCalc.formatRate(c.rateNonFiler()) + "% (Section " + c.section() + ") - Tax: " + TaxCalc.formatPkr(c.taxNonFiler()) + "\n"
                 + "Note: FBR advance tax estimate only. Provincial duties, stamp duty and registration fees are not included.";
     }
     void shareCalc(Calc c) {
@@ -650,17 +654,7 @@ public class MainActivity extends Activity {
         GradientDrawable vb = new GradientDrawable();
         vb.setColor(WHITE); vb.setCornerRadius(dp(16)); vb.setStroke(dp(1), BORDER);
         valueEt.setBackground(vb); valueEt.setPadding(dp(14), dp(14), dp(14), dp(14));
-        c.addView(valueEt); space(c, 16);
-        fieldLabel(c, R.drawable.lucide_user, "Taxpayer Status");
-        RadioGroup rg = new RadioGroup(this);
-        RadioButton fr = new RadioButton(this); fr.setTypeface(poppins(false)); fr.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16); fr.setTextColor(TEXT); fr.setButtonTintList(new android.content.res.ColorStateList(new int[][]{{android.R.attr.state_checked},{}}, new int[]{GREEN, GREY})); fr.setText("Filer (Active Taxpayer List)"); fr.setId(1001);
-        RadioButton nf = new RadioButton(this); nf.setTypeface(poppins(false)); nf.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16); nf.setTextColor(TEXT); nf.setButtonTintList(new android.content.res.ColorStateList(new int[][]{{android.R.attr.state_checked},{}}, new int[]{GREEN, GREY})); nf.setText("Non-Filer (Not on ATL)"); nf.setId(1002);
-        rg.addView(fr); rg.addView(nf);
-        rg.check(filer ? 1001 : 1002);
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup g, int id) { filer = (id == 1001); }
-        });
-        c.addView(rg); space(c, 12);
+        c.addView(valueEt); space(c, 12);
         c.addView(greenBtn("Calculate Tax", new View.OnClickListener() {
             public void onClick(View v) {
                 String raw = valueEt.getText().toString().replaceAll("[^0-9]", "");
@@ -670,8 +664,8 @@ public class MainActivity extends Activity {
                     Toast.makeText(MainActivity.this, "Value is too large", Toast.LENGTH_SHORT).show(); return;
                 }
                 if (val <= 0) { Toast.makeText(MainActivity.this, "Please enter property value", Toast.LENGTH_SHORT).show(); return; }
-                double r = TaxCalc.rate(buying, filer, val);
-                lastCalc = new Calc(buying, filer, val, r, TaxCalc.tax(val, r), System.currentTimeMillis());
+                double r = TaxCalc.rate(buying, true, val);
+                lastCalc = new Calc(buying, true, val, r, TaxCalc.tax(val, r), System.currentTimeMillis());
                 showResult(lastCalc);
             }
         }));
@@ -696,21 +690,29 @@ public class MainActivity extends Activity {
         chk.addView(ck);
         TextView et = tv("Estimated FBR Advance Tax", 14, WHITE, true);
         et.setPadding(dp(10), 0, 0, 0); chk.addView(et);
-        green.addView(chk); space(green, 6);
-        green.addView(tv(TaxCalc.formatPkr(calc.tax), 32, WHITE, true));
-        space(green, 12);
+        green.addView(chk); space(green, 12);
+        LinearLayout dual = new LinearLayout(this); dual.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout df = new LinearLayout(this); df.setOrientation(LinearLayout.VERTICAL);
+        df.addView(tv("Filer", 12, WHITE, false));
+        df.addView(tv(TaxCalc.formatPkr(calc.taxFiler()), 22, WHITE, true));
+        df.addView(tv("Rate " + TaxCalc.formatRate(calc.rateFiler()) + "%", 13, WHITE, false));
+        LinearLayout dn = new LinearLayout(this); dn.setOrientation(LinearLayout.VERTICAL);
+        dn.addView(tv("Non-Filer", 12, WHITE, false));
+        dn.addView(tv(TaxCalc.formatPkr(calc.taxNonFiler()), 22, WHITE, true));
+        dn.addView(tv("Rate " + TaxCalc.formatRate(calc.rateNonFiler()) + "%", 13, WHITE, false));
+        dual.addView(df, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        dual.addView(dn, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        green.addView(dual); space(green, 12);
         LinearLayout rr = new LinearLayout(this); rr.setOrientation(LinearLayout.HORIZONTAL);
         LinearLayout a1 = new LinearLayout(this); a1.setOrientation(LinearLayout.VERTICAL);
-        a1.addView(tv("Applicable Rate", 12, WHITE, false));
-        a1.addView(tv(TaxCalc.formatRate(calc.rate) + "%", 16, WHITE, true));
+        a1.addView(tv("Section", 12, WHITE, false));
+        a1.addView(tv(calc.section(), 16, WHITE, true));
         LinearLayout a2 = new LinearLayout(this); a2.setOrientation(LinearLayout.VERTICAL);
-        a2.addView(tv("Section", 12, WHITE, false));
-        a2.addView(tv(calc.section(), 16, WHITE, true));
+        a2.addView(tv("Transaction", 12, WHITE, false));
+        a2.addView(tv(calc.txnLong(), 16, WHITE, true));
         rr.addView(a1, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         rr.addView(a2, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-        green.addView(rr); space(green, 10);
-        green.addView(tv("Transaction", 12, WHITE, false));
-        green.addView(tv(calc.txnLong(), 16, WHITE, true));
+        green.addView(rr);
         LinearLayout.LayoutParams gp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         gp.bottomMargin = dp(12); green.setLayoutParams(gp);
@@ -718,8 +720,10 @@ public class MainActivity extends Activity {
         LinearLayout bd = card(c);
         bd.addView(tv("Calculation Breakdown", 16, TEXT, true)); space(bd, 8);
         row(bd, "Property Value", TaxCalc.formatPkr(calc.value));
-        row(bd, "Applicable Rate", TaxCalc.formatRate(calc.rate) + "%");
-        row(bd, "Calculated Tax", TaxCalc.formatPkr(calc.tax));
+        row(bd, "Filer Rate", TaxCalc.formatRate(calc.rateFiler()) + "%");
+        row(bd, "Filer Tax", TaxCalc.formatPkr(calc.taxFiler()));
+        row(bd, "Non-Filer Rate", TaxCalc.formatRate(calc.rateNonFiler()) + "%");
+        row(bd, "Non-Filer Tax", TaxCalc.formatPkr(calc.taxNonFiler()));
         LinearLayout note = card(c);
         note.setBackground(round(LIGHT, 20));
         note.addView(tv("ⓘ  This is an FBR advance tax estimate. Provincial duties, stamp duty, registration fees and other charges are not included.", 13, GREY, false));
@@ -745,18 +749,20 @@ public class MainActivity extends Activity {
         LinearLayout ht = new LinearLayout(this); ht.setOrientation(LinearLayout.VERTICAL);
         ht.setPadding(dp(10), 0, 0, 0);
         ht.addView(tv(calc.txn(), 16, TEXT, true));
-        TextView badge = tv(calc.filer ? "Filer" : "Non-Filer", 12, GREEN, true);
+        TextView badge = tv("Filer + Non-Filer", 12, GREEN, true);
         badge.setBackground(round(LIGHT, 12)); badge.setPadding(dp(10), dp(4), dp(10), dp(4));
         ht.addView(badge); hr.addView(ht); head.addView(hr);
         LinearLayout det = card(c);
         row(det, "Property Value", TaxCalc.formatPkr(calc.value));
-        row(det, "Applied Rate", TaxCalc.formatRate(calc.rate) + "%");
+        row(det, "Filer Rate", TaxCalc.formatRate(calc.rateFiler()) + "%");
+        row(det, "Non-Filer Rate", TaxCalc.formatRate(calc.rateNonFiler()) + "%");
         row(det, "FBR Section", calc.section());
         LinearLayout green = new LinearLayout(this);
         green.setOrientation(LinearLayout.VERTICAL);
         green.setBackground(round(GREEN, 20)); green.setPadding(dp(20), dp(20), dp(20), dp(20));
         green.addView(tv("Estimated FBR Advance Tax", 13, WHITE, false));
-        green.addView(tv(TaxCalc.formatPkr(calc.tax), 26, WHITE, true));
+        green.addView(tv("Filer: " + TaxCalc.formatPkr(calc.taxFiler()) + " (" + TaxCalc.formatRate(calc.rateFiler()) + "%)", 20, WHITE, true));
+        green.addView(tv("Non-Filer: " + TaxCalc.formatPkr(calc.taxNonFiler()) + " (" + TaxCalc.formatRate(calc.rateNonFiler()) + "%)", 20, WHITE, true));
         LinearLayout.LayoutParams gp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         gp.bottomMargin = dp(12); green.setLayoutParams(gp);
@@ -813,7 +819,8 @@ public class MainActivity extends Activity {
             mid.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
             mid.addView(tv(calc.txn(), 15, TEXT, true));
             mid.addView(tv(TaxCalc.formatPkr(calc.value), 14, TEXT, false));
-            mid.addView(tv("Tax: " + TaxCalc.formatPkr(calc.tax) + " (" + TaxCalc.formatRate(calc.rate) + "%)", 14, GREEN, true));
+            mid.addView(tv("Filer: " + TaxCalc.formatPkr(calc.taxFiler()) + " (" + TaxCalc.formatRate(calc.rateFiler()) + "%)", 14, GREEN, true));
+            mid.addView(tv("Non-Filer: " + TaxCalc.formatPkr(calc.taxNonFiler()) + " (" + TaxCalc.formatRate(calc.rateNonFiler()) + "%)", 14, GREEN, true));
             mid.addView(tv(dateStr(calc.time), 12, GREY, false));
             hr.addView(mid);
             hr.addView(tv("›", 26, GREY, false));
@@ -926,7 +933,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) { ratesBack = "settings"; showRates(); }
         });
         settingsRow(c, R.drawable.lucide_circle_question_mark, "FAQs", new View.OnClickListener() {
-            public void onClick(View v) { showInfo("FAQs", "Q: Is this the full cost of buying/selling?\nA: No. This is only the FBR advance tax. Provincial duties, stamp duty, registration fees and other charges are not included.\n\nQ: Does province change the rate?\nA: No - the same rate applies in every province, so the app does not ask for province at all. The rate depends only on Buying/Selling, Filer/Non-Filer, and (for buying non-filers) the property value slab. Property type is not asked either - it does not change the rate.\n\nQ: What is a filer?\nA: A person on the Active Taxpayer List (ATL). Non-filers pay the higher rates shown in Tax Rates.\n\nQ: Are rates fixed forever?\nA: No. FBR rates can change with the budget. Always confirm from FBR official sources."); }
+            public void onClick(View v) { showInfo("FAQs", "Q: Do I need to select Filer or Non-Filer?\nA: No. Just select Buying/Selling and enter the value - the result shows both the Filer tax and the Non-Filer tax.\n\nQ: Is this the full cost of buying/selling?\nA: No. This is only the FBR advance tax. Provincial duties, stamp duty, registration fees and other charges are not included.\n\nQ: Does province change the rate?\nA: No - the same rate applies in every province, so the app does not ask for province at all. The rate depends only on Buying/Selling, Filer/Non-Filer, and (for buying non-filers) the property value slab. Property type is not asked either - it does not change the rate.\n\nQ: What is a filer?\nA: A person on the Active Taxpayer List (ATL). Non-filers pay the higher rates shown in Tax Rates.\n\nQ: Are rates fixed forever?\nA: No. FBR rates can change with the budget. Always confirm from FBR official sources."); }
         });
         settingsRow(c, R.drawable.lucide_shield_check, "Privacy Policy", new View.OnClickListener() {
             public void onClick(View v) { showInfo("Privacy Policy", "This app does not collect, send or sell your personal data.\n\nCalculations are performed on your device. Calculation history is saved only in this app on your phone, and you can delete it any time from History (trash icon).\n\nNo account, no sign-in, no tracking."); }

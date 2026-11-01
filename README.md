@@ -251,3 +251,21 @@ Home rebuilt from the user's asset sheet + blue homepage reference:
   with Primary tint when checked / grey ring when not; Calculate Tax
   button unchanged pill (already matched). Bottom nav Calculator
   selected unchanged. Calculation + tests unchanged (15/15).
+
+## v1.7.4 — No Filer/Non-Filer selection; result shows BOTH taxes
+- Calculator flow simplified (user order): Taxpayer Status section
+  (Filer/Non-Filer radios) REMOVED from Calculator. Flow is now only:
+  Buying/Selling tab -> Property Value -> Calculate Tax. No status
+  selection anywhere in the flow.
+- Result shows BOTH outcomes from the SAME rates (unchanged FBR
+  table): green card with Filer tax + rate and Non-Filer tax + rate
+  side by side, breakdown with Filer Rate/Tax and Non-Filer Rate/Tax
+  rows, share text with both. Rates: Selling Filer 2.75% / Non-Filer
+  11.5%; Buying Filer 1.25% / Non-Filer 10.5% (<50M) / 14.5% (50M-<100M)
+  / 18.5% (>=100M). Example: Buying 50M -> Filer PKR 625,000,
+  Non-Filer PKR 7,250,000 — both shown on one result.
+- History + Details also dual: history items list both taxes, details
+  badge is now "Filer + Non-Filer" with both rates/taxes. Old history
+  entries work too — both rates are computed from buying + value on
+  display, so no history format change and no old data lost. FAQ
+  updated: no selection needed, result shows both.
